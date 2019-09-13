@@ -127,31 +127,46 @@ def random_hex():
         hex_string += hex_chars[index]
 
     return hex_string
+        
+L1 = 5
+L2 = 5
 
-def double_pendula_generator(
-            L1=5, 
-            L1=5, 
-            initial_dtheta=0, 
-            inital_theta=160, 
-            dtheta=1
-            ):
+# pendulum1 = DoublePendulum(L1,L2,y0=[90,30,0,0], color=random_hex())
+# pendulum2 = DoublePendulum(L1,L2,y0=[89,30, 0, 0], color="y")
+# pendulum3 = DoublePendulum(L1,L2,y0=[88,30,0,0], color="b")
+# pendulum4 = DoublePendulum(L1,L2,y0=[87,30,0,0], color="o")
+# pendulum5 = DoublePendulum(L1,L2,y0=[86,30, 0, 0], color="r")
+# pendulum6 = DoublePendulum(L1,L2,y0=[85,30,0,0], color="c")
 
-    pendula = []
+# plt.plot(pendulum1.x2, pendulum1.y2, color=pendulum1.color)
+# plt.plot(pendulum2.x2, pendulum2.y2, color="#000000")
 
 
-    #creates pendula 
-    for _ in range(10):
-        pendula.append(DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,0,0], color=random_hex()))
-        initial_dtheta += dtheta
 
-    # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
 
-    ani = animation.FuncAnimation(the_figure, animate, np.arange(1, len(pendula[0].y)),
-                                interval=25, blit=True, init_func=pendula[0].init)
+# ani = animation.FuncAnimation(the_figure, animate, np.arange(1, len(pendulum1.y)),
+#                               interval=25, blit=True, init_func=pendulum1.init)
 
-    plt.show()
+# # # plt.plot(t, y[:,1], 'r-')
+# # # plt.plot(t, y[:,3], 'g-')
 
-if __name__ == '__main__':
-    double_pendula_generator()
+pendula = []
+initial_dtheta = 0
+initial_theta = 160
+dtheta = 1
+
+#creates pendula 
+for _ in range(10):
+    pendula.append(DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,0,0], color=random_hex()))
+    initial_dtheta += dtheta
+
+# plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
+
+ani = animation.FuncAnimation(the_figure, animate, np.arange(1, len(pendula[0].y)),
+                            interval=25, blit=True, init_func=pendula[0].init)
+
+ani.save('line.gif', dpi=80, writer='imagemagick')
+
+plt.show()
 
 
