@@ -45,6 +45,9 @@ class DoublePendulum:
 
         # Do the numerical integration of the equations of motion
         self._calculate_paths()
+        
+        # HACK: temporary hack, will make this deferential and called externally 
+        self.plot()
 
     def plot(self, fig) -> None:
         """Plot the double pendulum on an axis attached to a given figure"""
