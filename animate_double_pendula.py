@@ -39,8 +39,7 @@ if __name__ == "__main__":
         double_pendulum = DoublePendulum(
             L1=L1,
             L2=L2,
-            y0=[initial_theta-initial_dtheta, 
-                0, -10, 0]
+            y0=[initial_theta-initial_dtheta, 0, -10, 0]
         )
         double_pendulum.plot(fig=fig)
         pendula.append(double_pendulum)
