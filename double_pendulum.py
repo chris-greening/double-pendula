@@ -112,7 +112,7 @@ def random_hex():
             6
         )
     )
-        
+     
 L1 = 5
 L2 = 5
 
