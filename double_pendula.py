@@ -21,19 +21,11 @@ class System:
         pass
 
 class DoublePendulum:
-    def __init__(
-            self, 
-            L1=1, 
-            L2=1, 
-            m1=1, 
-            m2=1, 
-            g=-9.81,
-            y0=[90, 0, -10, 0],
-            tmax = 180,
-            dt = .05,
-            color = "g"
-        ):
-
+    """Individual double pendulum"""
+    def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
+                 g: float = -9.81, y0: List[int] = [90, 0, -10, 0], 
+                 tmax: int = 180, dt: float = .05, color: str = "g") -> None:
+    
         self.tmax = tmax
         self.dt = dt
         self.t = np.arange(0, self.tmax+self.dt, self.dt)
