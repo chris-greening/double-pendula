@@ -39,28 +39,29 @@ def random_hex() -> str:
         )
     )
     return f"#{hex_value}"
-     
-L1 = 5
-L2 = 5
 
-pendula = []
-initial_dtheta = 0
-initial_theta = 90
-dtheta = .5
+if __name__ == "__main__":  
+    L1 = 5
+    L2 = 5
 
-#creates pendula 
-for _ in range(10):
-    double_pendulum = DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0], color=random_hex())
-    double_pendulum.plot(fig=fig)
-    pendula.append(double_pendulum)
-    initial_dtheta += dtheta
+    pendula = []
+    initial_dtheta = 0
+    initial_theta = 90
+    dtheta = .5
 
-# plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
+    #creates pendula 
+    for _ in range(10):
+        double_pendulum = DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0], color=random_hex())
+        double_pendulum.plot(fig=fig)
+        pendula.append(double_pendulum)
+        initial_dtheta += dtheta
 
-ani = animation.FuncAnimation(fig, animate, np.arange(1, len(pendula[0].y)),
-                            interval=25, blit=True, init_func=pendula[0].init)
+    # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
 
-# ani.save('line.gif', dpi=80, writer='imagemagick')
+    ani = animation.FuncAnimation(fig, animate, np.arange(1, len(pendula[0].y)),
+                                interval=25, blit=True, init_func=pendula[0].init)
 
-plt.show()
+    # ani.save('line.gif', dpi=80, writer='imagemagick')
+
+    plt.show()
 
