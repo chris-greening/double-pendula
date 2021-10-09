@@ -47,8 +47,14 @@ if __name__ == "__main__":
 
     # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
 
-    ani = animation.FuncAnimation(fig, animate, np.arange(1, len(pendula[0].y)),
-                                interval=25, blit=True, init_func=pendula[0].init)
+    ani = animation.FuncAnimation(
+        fig, 
+        animate, 
+        np.arange(1, len(pendula[0].y)),
+        interval=25, 
+        blit=True, 
+        init_func=pendula[0].init
+    )
 
     # ani.save('line.gif', dpi=80, writer='imagemagick')
 
