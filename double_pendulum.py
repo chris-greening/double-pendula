@@ -143,6 +143,7 @@ class Pendulum:
         self.y = self.L*np.cos(y) + y0
 
 def random_hex() -> str:
+    """Return a random hex color i.e. #FFFFFF"""
     hex_value = "".join(
         np.random.choice(
             list(string.hexdigits), 
