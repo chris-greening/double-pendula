@@ -10,21 +10,17 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-EARTH_GRAVITATIONAL_ACCELERATION = -9.81
-
 fig = plt.figure()
 
 class DoublePendulum:
-    """A single set of double pendula"""
+    g = -9.81
+    tmax = 15.0
+    dt = .05
+    t = np.arange(0, tmax+dt, dt)
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
-                 g: float = EARTH_GRAVITATIONAL_ACCELERATION, y0: List[int] = [90, 0, -10, 0], 
-                 tmax: float = 180.0, dt: float = .05, color: str = "g") -> None:
+                 y0: List[int] = [90, 0, -10, 0], color: str = "g") -> None:
     
-        self.tmax = tmax
-        self.dt = dt
-        self.t = np.arange(0, self.tmax+self.dt, self.dt)
         self.color = color
-        self.g = g
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
         
@@ -105,13 +101,14 @@ def animate(i):
 
     return return_arr
 
-def random_hex():
-    return "".join(
+def random_hex() -> str:
+    hex_value = "".join(
         np.random.choice(
             list(string.hexdigits), 
             6
         )
     )
+    return f"#{hex_value}"
      
 L1 = 5
 L2 = 5
@@ -123,7 +120,7 @@ dtheta = .5
 
 #creates pendula 
 for _ in range(10):
-    pendula.append(DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0], tmax=15, color=random_hex()))
+    pendula.append(DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0], color=random_hex()))
     initial_dtheta += dtheta
 
 # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
