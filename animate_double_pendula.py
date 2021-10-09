@@ -16,18 +16,16 @@ def animate(i):
     for double_pendulum in pendula:
         double_pendulum.set_frame(i=i)
 
-        return_arr.append(
-            *(
-                double_pendulum.line,
-                double_pendulum.time_text,
-                double_pendulum.pendulum1.p,
-                double_pendulum.pendulum2.p
-            )
-        )
-
+        return_arr.extend([
+            double_pendulum.line,
+            double_pendulum.time_text,
+            double_pendulum.pendulum1.p,
+            double_pendulum.pendulum2.p
+        ])
     return return_arr
 
 if __name__ == "__main__":  
+    NUM_PENDULUMS = 10
     L1 = 5
     L2 = 5
 
@@ -37,8 +35,13 @@ if __name__ == "__main__":
     dtheta = .5
 
     #creates pendula 
-    for _ in range(10):
-        double_pendulum = DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0])
+    for _ in range(NUM_PENDULUMS):
+        double_pendulum = DoublePendulum(
+            L1=L1,
+            L2=L2,
+            y0=[initial_theta-initial_dtheta, 
+                0, -10, 0]
+        )
         double_pendulum.plot(fig=fig)
         pendula.append(double_pendulum)
         initial_dtheta += dtheta
