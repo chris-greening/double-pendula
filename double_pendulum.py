@@ -83,6 +83,8 @@ class DoublePendulum:
                               self.pendulum1.m, self.pendulum2.m,
                               DoublePendulum.g)
         )
+
+        # Calculate individual pendulum paths
         self.pendulum1.calculate_path(
             theta=self.y[:, 0], 
             dtheta=self.y[:, 1]
