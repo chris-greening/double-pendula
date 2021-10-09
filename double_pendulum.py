@@ -3,14 +3,9 @@
 #Date: 7/15/19
 
 from typing import List
-import string
 
 import numpy as np
 from scipy.integrate import odeint
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-
-fig = plt.figure()
 
 class DoublePendulum:
     g = -9.81
@@ -45,9 +40,6 @@ class DoublePendulum:
 
         # Do the numerical integration of the equations of motion
         self._calculate_paths()
-        
-        # HACK: temporary hack, will make this deferential and called externally 
-        self.plot()
 
     def plot(self, fig) -> None:
         """Plot the double pendulum on an axis attached to a given figure"""
@@ -108,53 +100,4 @@ class Pendulum:
     def calculate_path(self, y, x0=0, y0=0):
         self.x = self.L*np.sin(y) + x0
         self.y = self.L*np.cos(y) + y0
-
-def animate(i):
-    arr = pendula #pendulum2, pendulum3, pendulum4, pendulum5, pendulum6]
-    return_arr = []
-    for double_pendulum in arr:
-        thisx = [0, double_pendulum.pendulum1.x[i], double_pendulum.pendulum2.x[i]]
-        thisy = [0, double_pendulum.pendulum1.y[i],
-                          double_pendulum.pendulum2.y[i]]
-        
-        double_pendulum.line.set_data(thisx, thisy)
-        double_pendulum.time_text.set_text(double_pendulum.time_template % (i*double_pendulum.dt))
-
-        return_arr.append(double_pendulum.line)
-        return_arr.append(double_pendulum.time_text)
-        return_arr.append(double_pendulum.pendulum1.p)
-        return_arr.append(double_pendulum.pendulum2.p)
-
-    return return_arr
-
-def random_hex() -> str:
-    hex_value = "".join(
-        np.random.choice(
-            list(string.hexdigits), 
-            6
-        )
-    )
-    return f"#{hex_value}"
-     
-L1 = 5
-L2 = 5
-
-pendula = []
-initial_dtheta = 0
-initial_theta = 90
-dtheta = .5
-
-#creates pendula 
-for _ in range(10):
-    pendula.append(DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0], color=random_hex()))
-    initial_dtheta += dtheta
-
-# plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
-
-ani = animation.FuncAnimation(fig, animate, np.arange(1, len(pendula[0].y)),
-                            interval=25, blit=True, init_func=pendula[0].init)
-
-# ani.save('line.gif', dpi=80, writer='imagemagick')
-
-plt.show()
 
