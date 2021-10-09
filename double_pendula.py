@@ -106,7 +106,12 @@ def animate(i):
     return return_arr
 
 def random_hex():
-    return "".join(np.random.choice(list(string.hexdigits), 6))
+    return "".join(
+        np.random.choice(
+            list(string.hexdigits), 
+            6
+        )
+    )
         
 L1 = 5
 L2 = 5
