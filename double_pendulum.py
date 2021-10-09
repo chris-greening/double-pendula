@@ -50,6 +50,8 @@ class DoublePendulum:
         color : str (optional)
             Color of the double pendulum, defaults to a random hex value
         """
+
+        # TODO: there is probably a way to optimize this
         if color is None:
             color = random_hex()
 
@@ -58,7 +60,7 @@ class DoublePendulum:
             111, 
             autoscale_on=False, 
             xlim=(-self.ax_range, self.ax_range), 
-            ylim=(-self.ax_range, self.ax_range)
+            ylim=(-self.ax_range, self.ax_range),
         )
         self.ax.set_aspect('equal')
         self.ax.grid()
