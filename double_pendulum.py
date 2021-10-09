@@ -46,6 +46,8 @@ class DoublePendulum:
         # Do the numerical integration of the equations of motion
         self._calculate_paths()
 
+    def plot(self, fig) -> None:
+        """Plot the double pendulum on an axis attached to a given figure"""
         self.ax_range = self.pendulum1.L + self.pendulum2.L
         self.ax = fig.add_subplot(111, autoscale_on=False, xlim=(-self.ax_range, self.ax_range), ylim=(-self.ax_range, self.ax_range))
         self.ax.set_aspect('equal')
