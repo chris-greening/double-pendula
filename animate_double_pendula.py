@@ -12,20 +12,18 @@ from double_pendulum import DoublePendulum
 fig = plt.figure()
 
 def animate(i):
-    arr = pendula #pendulum2, pendulum3, pendulum4, pendulum5, pendulum6]
     return_arr = []
-    for double_pendulum in arr:
-        thisx = [0, double_pendulum.pendulum1.x[i], double_pendulum.pendulum2.x[i]]
-        thisy = [0, double_pendulum.pendulum1.y[i],
-                          double_pendulum.pendulum2.y[i]]
-        
-        double_pendulum.line.set_data(thisx, thisy)
-        double_pendulum.time_text.set_text(double_pendulum.time_template % (i*double_pendulum.dt))
+    for double_pendulum in pendula:
+        double_pendulum.set_frame(i=i)
 
-        return_arr.append(double_pendulum.line)
-        return_arr.append(double_pendulum.time_text)
-        return_arr.append(double_pendulum.pendulum1.p)
-        return_arr.append(double_pendulum.pendulum2.p)
+        return_arr.append(
+            *(
+                double_pendulum.line,
+                double_pendulum.time_text,
+                double_pendulum.pendulum1.p,
+                double_pendulum.pendulum2.p
+            )
+        )
 
     return return_arr
 
