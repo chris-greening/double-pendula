@@ -6,7 +6,7 @@ from typing import List
 import string
 
 import numpy as np
-import scipy
+from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
@@ -44,16 +44,10 @@ class DoublePendulum:
         self.y0 = np.array(np.radians(y0))
 
         # Do the numerical integration of the equations of motion
-        self.y = scipy.integrate.odeint(self.derivative, self.y0, self.t, args=(self.pendulum1.L, self.pendulum2.L, self.pendulum1.m, self.pendulum2.m))
+        self._calculate_paths()
 
-        self.pendulum1.calculate_path(self.y[:, 0])
-        self.pendulum2.calculate_path(self.y[:, 2], self.pendulum1.x, self.pendulum1.y)
-
-        self.w = self.y[:, 1]
-
-        self.fig = fig
         self.ax_range = self.pendulum1.L + self.pendulum2.L
-        self.ax = self.fig.add_subplot(111, autoscale_on=False, xlim=(-self.ax_range, self.ax_range), ylim=(-self.ax_range, self.ax_range))
+        self.ax = fig.add_subplot(111, autoscale_on=False, xlim=(-self.ax_range, self.ax_range), ylim=(-self.ax_range, self.ax_range))
         self.ax.set_aspect('equal')
         self.ax.grid()
 
@@ -63,6 +57,17 @@ class DoublePendulum:
         self.line, = self.ax.plot([], [], 'o-', lw=2,color=self.color)
         self.time_template = 'time = %.1fs'
         self.time_text = self.ax.text(0.05, 0.9, '', transform=self.ax.transAxes)
+
+    def _calculate_paths(self):
+        """Solve the ODE and calculate the path for both pendulum's in the 
+        system"""
+        self.y = odeint(self.derivative, self.y0, self.t, 
+                                   args=(self.pendulum1.L, self.pendulum2.L, 
+                                         self.pendulum1.m, self.pendulum2.m)
+        )
+        self.pendulum1.calculate_path(self.y[:, 0])
+        self.pendulum2.calculate_path(self.y[:, 2], self.pendulum1.x, self.pendulum1.y)
+        self.w = self.y[:, 1]
 
     def derivative(self, y, t, L1, L2, m1, m2):
         """Return the first derivatives of y = theta1, z1, theta2, z2."""
