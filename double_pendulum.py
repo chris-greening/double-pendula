@@ -15,7 +15,7 @@ class DoublePendulum:
     t = np.arange(0, tmax+dt, dt)
     all_penduliums = []
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
-                 y0: List[int] = [90, 0, -10, 0], color: str = None) -> None:
+                 y0: List[int] = [90, 0, -10, 0]) -> None:
         """
         Instantiates a double pendulum with the given parameters and initial 
         conditions
@@ -32,8 +32,6 @@ class DoublePendulum:
             Mass of the second pendulum bob
         y0 : List[int] = [90, 0, -10, 0]
             Initial angle (in degrees) and angular velocity
-        color : str = "g"
-            Color of the pendulum given as a matplotlib compatible value
         """
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
@@ -60,7 +58,7 @@ class DoublePendulum:
         self.pendulum1.set_axes(self.ax)
         self.pendulum2.set_axes(self.ax)
 
-        self.line, = self.ax.plot([], [], 'o-', lw=2,color=self.color)
+        self.line, = self.ax.plot([], [], 'o-', lw=2,color=color)
         self.time_template = 'time = %.1fs'
         self.time_text = self.ax.text(0.05, 0.9, '', transform=self.ax.transAxes)
 
@@ -69,23 +67,25 @@ class DoublePendulum:
         system"""
         self.y = odeint(self.derivative, self.y0, self.t, 
                                    args=(self.pendulum1.L, self.pendulum2.L, 
-                                         self.pendulum1.m, self.pendulum2.m)
+                                         self.pendulum1.m, self.pendulum2.m,
+                                         DoublePendulum.g)
         )
         self.pendulum1.calculate_path(self.y[:, 0])
         self.pendulum2.calculate_path(self.y[:, 2], self.pendulum1.x, self.pendulum1.y)
         self.w = self.y[:, 1]
 
-    def derivative(self, y, t, L1, L2, m1, m2):
+    @staticmethod
+    def derivative(y, t, L1, L2, m1, m2, g):
         """Return the first derivatives of y = theta1, z1, theta2, z2."""
         theta1, z1, theta2, z2 = y
 
         c, s = np.cos(theta1-theta2), np.sin(theta1-theta2)
 
         theta1dot = z1
-        z1dot = (m2*self.g*np.sin(theta2)*c - m2*s*(L1*z1**2*c + L2*z2**2) -
-                (m1+m2)*self.g*np.sin(theta1)) / L1 / (m1 + m2*s**2)
+        z1dot = (m2*g*np.sin(theta2)*c - m2*s*(L1*z1**2*c + L2*z2**2) -
+                (m1+m2)*g*np.sin(theta1)) / L1 / (m1 + m2*s**2)
         theta2dot = z2
-        z2dot = ((m1+m2)*(L1*z1**2*s - self.g*np.sin(theta2) + self.g*np.sin(theta1)*c) + 
+        z2dot = ((m1+m2)*(L1*z1**2*s - g*np.sin(theta2) + g*np.sin(theta1)*c) + 
                 m2*L2*z2**2*s*c) / L2 / (m1 + m2*s**2)
         return theta1dot, z1dot, theta2dot, z2dot
 

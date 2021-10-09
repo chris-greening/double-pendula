@@ -29,8 +29,6 @@ def animate(i):
 
     return return_arr
 
-
-
 if __name__ == "__main__":  
     L1 = 5
     L2 = 5
@@ -42,7 +40,7 @@ if __name__ == "__main__":
 
     #creates pendula 
     for _ in range(10):
-        double_pendulum = DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0], color=random_hex())
+        double_pendulum = DoublePendulum(L1=L1,L2=L2,y0=[initial_theta-initial_dtheta, 0,-10,0])
         double_pendulum.plot(fig=fig)
         pendula.append(double_pendulum)
         initial_dtheta += dtheta
