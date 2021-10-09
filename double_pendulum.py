@@ -56,21 +56,24 @@ class DoublePendulum:
         if color is None:
             color = random_hex()
 
-        self.ax_range = self.pendulum1.L + self.pendulum2.L
-        self.ax = fig.add_subplot(
-            111, 
-            autoscale_on=False, 
-            xlim=(-self.ax_range, self.ax_range), 
-            ylim=(-self.ax_range, self.ax_range),
-        )
-        self.ax.set_aspect('equal')
-        self.ax.grid()
-
+        self.ax = self._create_axis(fig=fig)
         self.pendulum1.set_axes(self.ax)
         self.pendulum2.set_axes(self.ax)
-
         self.line, = self.ax.plot([], [], 'o-', lw=2, color=color)
         self.time_text = self.ax.text(0.05, 0.9, '', transform=self.ax.transAxes)
+
+    def _create_axis(self, fig: "matplotlib.figure.Figure") -> None:
+        """Create dynamic axis to plot the double pendulum to"""
+        ax_range = self.pendulum1.L + self.pendulum2.L
+        ax = fig.add_subplot(
+            111, 
+            autoscale_on=False, 
+            xlim=(-ax_range, ax_range), 
+            ylim=(-ax_range, ax_range),
+        )
+        ax.set_aspect('equal')
+        ax.grid()
+        return ax
 
     def _calculate_system(self, L1: int, m1: int, L2: int, m2: int) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
