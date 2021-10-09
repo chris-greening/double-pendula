@@ -13,7 +13,7 @@ class DoublePendulum:
     tmax = 15.0
     dt = .05
     t = np.arange(0, tmax+dt, dt)
-    all_penduliums = []
+    time_template = 'time = %.1fs'
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
                  y0: List[int] = [90, 0, -10, 0]) -> None:
         """
@@ -67,7 +67,6 @@ class DoublePendulum:
         self.pendulum2.set_axes(self.ax)
 
         self.line, = self.ax.plot([], [], 'o-', lw=2, color=color)
-        self.time_template = 'time = %.1fs'
         self.time_text = self.ax.text(0.05, 0.9, '', transform=self.ax.transAxes)
 
     def _calculate_paths(self):
