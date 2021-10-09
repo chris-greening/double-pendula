@@ -39,8 +39,7 @@ if __name__ == "__main__":
         double_pendulum = DoublePendulum(
             L1=L1,
             L2=L2,
-            y0=[initial_theta-initial_dtheta, 
-                0, -10, 0]
+            y0=[initial_theta-initial_dtheta, 0, -10, 0]
         )
         double_pendulum.plot(fig=fig)
         pendula.append(double_pendulum)
@@ -48,8 +47,14 @@ if __name__ == "__main__":
 
     # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
 
-    ani = animation.FuncAnimation(fig, animate, np.arange(1, len(pendula[0].y)),
-                                interval=25, blit=True, init_func=pendula[0].init)
+    ani = animation.FuncAnimation(
+        fig, 
+        animate, 
+        np.arange(1, len(pendula[0].y)),
+        interval=25, 
+        blit=True, 
+        init_func=pendula[0].init
+    )
 
     # ani.save('line.gif', dpi=80, writer='imagemagick')
 

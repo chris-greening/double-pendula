@@ -5,6 +5,7 @@
 from typing import List
 import string
 
+import pandas as pd
 import numpy as np
 from scipy.integrate import odeint
 
@@ -38,7 +39,7 @@ class DoublePendulum:
         self.y0 = np.array(np.radians(y0))
 
         # Do the numerical integration of the equations of motion
-        self._calculate_paths()
+        self._calculate_system(L1, m1, L2, m2)
 
     def plot(self, fig: "matplotlib.figure.Figure", color: str = None) -> None:
         """Plot the double pendulum on an axis attached to a given figure
@@ -55,23 +56,26 @@ class DoublePendulum:
         if color is None:
             color = random_hex()
 
-        self.ax_range = self.pendulum1.L + self.pendulum2.L
-        self.ax = fig.add_subplot(
-            111, 
-            autoscale_on=False, 
-            xlim=(-self.ax_range, self.ax_range), 
-            ylim=(-self.ax_range, self.ax_range),
-        )
-        self.ax.set_aspect('equal')
-        self.ax.grid()
-
+        self.ax = self._create_axis(fig=fig)
         self.pendulum1.set_axes(self.ax)
         self.pendulum2.set_axes(self.ax)
-
         self.line, = self.ax.plot([], [], 'o-', lw=2, color=color)
         self.time_text = self.ax.text(0.05, 0.9, '', transform=self.ax.transAxes)
 
-    def _calculate_paths(self):
+    def _create_axis(self, fig: "matplotlib.figure.Figure") -> None:
+        """Create dynamic axis to plot the double pendulum to"""
+        ax_range = self.pendulum1.L + self.pendulum2.L
+        ax = fig.add_subplot(
+            111, 
+            autoscale_on=False, 
+            xlim=(-ax_range, ax_range), 
+            ylim=(-ax_range, ax_range),
+        )
+        ax.set_aspect('equal')
+        ax.grid()
+        return ax
+
+    def _calculate_system(self, L1: int, m1: int, L2: int, m2: int) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
         system"""
         self.y = odeint(self.derivative, self.y0, self.t, 
@@ -79,9 +83,24 @@ class DoublePendulum:
                               self.pendulum1.m, self.pendulum2.m,
                               DoublePendulum.g)
         )
-        self.pendulum1.calculate_path(self.y[:, 0])
-        self.pendulum2.calculate_path(self.y[:, 2], self.pendulum1.x, self.pendulum1.y)
+
+        # Calculate individual pendulum paths
+        self.pendulum1.calculate_path(
+            theta=self.y[:, 0], 
+            dtheta=self.y[:, 1]
+        )
+        self.pendulum2.calculate_path(
+            theta=self.y[:, 2], 
+            dtheta=self.y[:, 3], 
+            x0=self.pendulum1.x, 
+            y0=self.pendulum1.y
+        )
+
         self.w = self.y[:, 1]
+        self.df = pd.DataFrame(
+            self.y, 
+            columns=["theta1", "dtheta1", "theta2", "dtheta2"]
+        )
 
     @staticmethod
     def derivative(y, t, L1, L2, m1, m2, g):
@@ -139,9 +158,12 @@ class Pendulum:
         self.p, = self.ax.plot([], [], color='r')
         self.w = self.ax.plot([], [])
 
-    def calculate_path(self, y, x0=0, y0=0):
-        self.x = self.L*np.sin(y) + x0
-        self.y = self.L*np.cos(y) + y0
+    def calculate_path(self, theta, dtheta, x0=0, y0=0):
+        self.theta = theta
+        self.dtheta = dtheta
+        self.df = pd.DataFrame({"theta": self.theta, "dtheta": self.dtheta})
+        self.x = self.L*np.sin(self.theta) + x0
+        self.y = self.L*np.cos(self.theta) + y0
 
 def random_hex() -> str:
     """Return a random hex color i.e. #FFFFFF"""
