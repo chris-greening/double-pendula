@@ -3,8 +3,6 @@ initial conditions to exemplify the signficance of initial conditions in a
 chaotic systems
 """
 
-import string
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -31,14 +29,7 @@ def animate(i):
 
     return return_arr
 
-def random_hex() -> str:
-    hex_value = "".join(
-        np.random.choice(
-            list(string.hexdigits), 
-            6
-        )
-    )
-    return f"#{hex_value}"
+
 
 if __name__ == "__main__":  
     L1 = 5

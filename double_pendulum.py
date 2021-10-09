@@ -3,6 +3,7 @@
 #Date: 7/15/19
 
 from typing import List
+import string
 
 import numpy as np
 from scipy.integrate import odeint
@@ -12,8 +13,9 @@ class DoublePendulum:
     tmax = 15.0
     dt = .05
     t = np.arange(0, tmax+dt, dt)
+    all_penduliums = []
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
-                 y0: List[int] = [90, 0, -10, 0], color: str = "g") -> None:
+                 y0: List[int] = [90, 0, -10, 0], color: str = None) -> None:
         """
         Instantiates a double pendulum with the given parameters and initial 
         conditions
@@ -33,7 +35,6 @@ class DoublePendulum:
         color : str = "g"
             Color of the pendulum given as a matplotlib compatible value
         """
-        self.color = color
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
         self.y0 = np.array(np.radians(y0))
@@ -41,10 +42,18 @@ class DoublePendulum:
         # Do the numerical integration of the equations of motion
         self._calculate_paths()
 
-    def plot(self, fig) -> None:
+    def plot(self, fig, color: str = None) -> None:
         """Plot the double pendulum on an axis attached to a given figure"""
+        if color is None:
+            color = random_hex()
+
         self.ax_range = self.pendulum1.L + self.pendulum2.L
-        self.ax = fig.add_subplot(111, autoscale_on=False, xlim=(-self.ax_range, self.ax_range), ylim=(-self.ax_range, self.ax_range))
+        self.ax = fig.add_subplot(
+            111, 
+            autoscale_on=False, 
+            xlim=(-self.ax_range, self.ax_range), 
+            ylim=(-self.ax_range, self.ax_range)
+        )
         self.ax.set_aspect('equal')
         self.ax.grid()
 
@@ -101,3 +110,11 @@ class Pendulum:
         self.x = self.L*np.sin(y) + x0
         self.y = self.L*np.cos(y) + y0
 
+def random_hex() -> str:
+    hex_value = "".join(
+        np.random.choice(
+            list(string.hexdigits), 
+            6
+        )
+    )
+    return f"#{hex_value}"
