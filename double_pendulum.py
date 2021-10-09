@@ -6,7 +6,7 @@ from typing import List
 import string
 
 import numpy as np
-from scipy.integrate import odeint
+import scipy
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
@@ -19,16 +19,32 @@ class DoublePendulum:
     t = np.arange(0, tmax+dt, dt)
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
                  y0: List[int] = [90, 0, -10, 0], color: str = "g") -> None:
-    
+        """
+        Instantiates a double pendulum with the given parameters and initial 
+        conditions
+
+        Parameters
+        ----------
+        L1 : int = 1
+            Length of the first pendulum arm
+        L2 : int = 1
+            Length of the second pendulum arm 
+        m1 : int = 1
+            Mass of the first pendulum bob
+        m2 : int = 1
+            Mass of the second pendulum bob
+        y0 : List[int] = [90, 0, -10, 0]
+            Initial angle (in degrees) and angular velocity
+        color : str = "g"
+            Color of the pendulum given as a matplotlib compatible value
+        """
         self.color = color
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
-        
-        # Initial conditions: theta1, dtheta1/dt, theta2, dtheta2/dt.
         self.y0 = np.array(np.radians(y0))
 
         # Do the numerical integration of the equations of motion
-        self.y = odeint(self.derivative, self.y0, self.t, args=(self.pendulum1.L, self.pendulum2.L, self.pendulum1.m, self.pendulum2.m))
+        self.y = scipy.integrate.odeint(self.derivative, self.y0, self.t, args=(self.pendulum1.L, self.pendulum2.L, self.pendulum1.m, self.pendulum2.m))
 
         self.pendulum1.calculate_path(self.y[:, 0])
         self.pendulum2.calculate_path(self.y[:, 2], self.pendulum1.x, self.pendulum1.y)
