@@ -1,30 +1,24 @@
+"""Visualizing the butterfly effect via Python and Lagrangian mechanics."""
 #Author: Chris Greening
 #Date: 7/15/19
-#Purpose: Another crack at the double pendulum to convert it to OOP
-#to support multiple pendula
+
+from typing import List
+import string
 
 import numpy as np
-import pandas as pd
-from pandas import Series, DataFrame
-from numpy import sin, cos
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+EARTH_GRAVITATIONAL_ACCELERATION = -9.81
+
 fig = plt.figure()
 
-class System:
-    def __init__(self):
-        self.double_pendulums = []
-
-    def add_double_pendulum(self, double_pendulum):
-        pass
-
 class DoublePendulum:
-    """Individual double pendulum"""
+    """A single set of double pendula"""
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
-                 g: float = -9.81, y0: List[int] = [90, 0, -10, 0], 
-                 tmax: int = 180, dt: float = .05, color: str = "g") -> None:
+                 g: float = EARTH_GRAVITATIONAL_ACCELERATION, y0: List[int] = [90, 0, -10, 0], 
+                 tmax: float = 180.0, dt: float = .05, color: str = "g") -> None:
     
         self.tmax = tmax
         self.dt = dt
@@ -86,7 +80,7 @@ class Pendulum:
         self.ax = ax
 
         # defines line that tracks where pendulum's have gone
-        self.p, = self.ax.plot([], [], color='r-')
+        self.p, = self.ax.plot([], [], color='r')
         self.w = self.ax.plot([], [])
 
     def calculate_path(self, y, x0=0, y0=0):
@@ -112,15 +106,7 @@ def animate(i):
     return return_arr
 
 def random_hex():
-    
-    hex_chars = "0123456789ABCDEF"
-    
-    hex_string = "#"
-    for i in range(6):
-        index = np.random.randint(0, len(hex_chars))
-        hex_string += hex_chars[index]
-
-    return hex_string
+    return "".join(np.random.choice(list(string.hexdigits), 6))
         
 L1 = 5
 L2 = 5
