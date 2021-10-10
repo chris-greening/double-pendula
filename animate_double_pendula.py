@@ -26,21 +26,21 @@ def animate(i):
     time_template = 'time = %.1fs'
     dt = .05
     return_arr = []
-    for double_pendulum, ax, line in pendula_axes:
+    for double_pendulum, ax_data in pendula_axes:
+        ax, line, time_text = ax_data
         frame_x = double_pendulum.get_frame_x(i=i)
         frame_y = double_pendulum.get_frame_y(i=i)
         line.set_data(frame_x, frame_y)
-        time_text.set_text(time_template % (dt))
+        time_text.set_text(time_template % (dt*i))
         return_arr.extend([
-            double_pendulum.line,
-            double_pendulum.time_text,
+            line,
+            time_text,
             double_pendulum.pendulum1.p,
             double_pendulum.pendulum2.p
         ])
     return return_arr
 
-def create_axes(pendula: List["DoublePendulum"]) -> List["matplotlib.axes._subplots.AxesSubplot"]:
-    fig = plt.figure()
+def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]) -> List["matplotlib.axes._subplots.AxesSubplot"]:
     axes = []
     for double_pendulum in pendula:
         color = random_hex()
@@ -50,7 +50,7 @@ def create_axes(pendula: List["DoublePendulum"]) -> List["matplotlib.axes._subpl
         double_pendulum.pendulum2.set_axes(ax)
         line, = ax.plot([], [], 'o-', lw=2, color=color)
         time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
-        axes.append((ax, line))
+        axes.append((ax, line, time_text))
     return axes
 
 def _create_individual_axis(double_pendulum: "DoublePendulum", fig: "matplotlib.figure.Figure") -> None:
@@ -66,6 +66,13 @@ def _create_individual_axis(double_pendulum: "DoublePendulum", fig: "matplotlib.
     ax.grid()
     return ax
 
+def init():
+    line = pendula_axes[0][1][1]
+    time_text = pendula_axes[0][1][2]
+    line.set_data([], [])
+    time_text.set_text('')
+    return line, time_text
+
 if __name__ == "__main__":  
     NUM_PENDULUMS = 10
     L1 = 5
@@ -77,9 +84,10 @@ if __name__ == "__main__":
     dtheta = .5
 
     # Create the pendula
+    fig = plt.figure()
     pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10) 
-    axes = create_axes(pendula=pendula)
-    pendula_axes = zip(pendula, axes)
+    axes = create_axes(fig=fig, pendula=pendula)
+    pendula_axes = list(zip(pendula, axes))
 
     ani = animation.FuncAnimation(
         fig, 
@@ -87,7 +95,7 @@ if __name__ == "__main__":
         np.arange(1, len(pendula[0].y)),
         interval=25, 
         blit=True, 
-        init_func=pendula[0].init
+        init_func=init
     )
 
     # ani.save('line.gif', dpi=80, writer='imagemagick')

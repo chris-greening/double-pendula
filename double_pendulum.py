@@ -14,7 +14,7 @@ class DoublePendulum:
     tmax = 15.0
     dt = .05
     t = np.arange(0, tmax+dt, dt)
-    time_template = 'time = %.1fs'
+    
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
                  y0: List[int] = [90, 0, -10, 0]) -> None:
         """
@@ -102,7 +102,7 @@ class DoublePendulum:
 
             # HACK: temp fix, plotting will be removed soon so the class can 
             # focus on modeling and not plotting
-            double_pendulum.plot(fig)
+            # double_pendulum.plot(fig)
             initial_theta += dtheta
             created_pendula += 1
         return pendula
@@ -149,11 +149,6 @@ class DoublePendulum:
         z2dot = ((m1+m2)*(L1*z1**2*s - g*np.sin(theta2) + g*np.sin(theta1)*c) + 
                 m2*L2*z2**2*s*c) / L2 / (m1 + m2*s**2)
         return theta1dot, z1dot, theta2dot, z2dot
-
-    def init(self):
-        self.line.set_data([], [])
-        self.time_text.set_text('')
-        return self.line, self.time_text
 
 class Pendulum:
     def __init__(self, L, m):
