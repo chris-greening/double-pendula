@@ -28,15 +28,12 @@ def animate(i):
     return_arr = []
     for double_pendulum, ax_data in pendula_axes:
         ax, line, time_text = ax_data
-        frame_x = double_pendulum.get_frame_x(i=i)
-        frame_y = double_pendulum.get_frame_y(i=i)
+        frame_x, frame_y = double_pendulum.get_frame_coordinates(i)
         line.set_data(frame_x, frame_y)
         time_text.set_text(time_template % (dt*i))
         return_arr.extend([
             line,
             time_text,
-            double_pendulum.pendulum1.p,
-            double_pendulum.pendulum2.p
         ])
     return return_arr
 
@@ -44,10 +41,7 @@ def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]
     axes = []
     for double_pendulum in pendula:
         color = random_hex()
-
         ax = _create_individual_axis(double_pendulum=double_pendulum, fig=fig)
-        double_pendulum.pendulum1.set_axes(ax)
-        double_pendulum.pendulum2.set_axes(ax)
         line, = ax.plot([], [], 'o-', lw=2, color=color)
         time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
         axes.append((ax, line, time_text))
@@ -66,22 +60,7 @@ def _create_individual_axis(double_pendulum: "DoublePendulum", fig: "matplotlib.
     ax.grid()
     return ax
 
-def init():
-    line = pendula_axes[0][1][1]
-    time_text = pendula_axes[0][1][2]
-    line.set_data([], [])
-    time_text.set_text('')
-    return line, time_text
-
 if __name__ == "__main__":  
-    NUM_PENDULUMS = 10
-    L1 = 5
-    L2 = 5
-
-    pendula = []
-    initial_dtheta = 0
-    initial_theta = 90
-    dtheta = .5
 
     # Create the pendula
     fig = plt.figure()
@@ -95,10 +74,6 @@ if __name__ == "__main__":
         np.arange(1, len(pendula[0].y)),
         interval=25, 
         blit=True, 
-        init_func=init
     )
-
-    # ani.save('line.gif', dpi=80, writer='imagemagick')
-
     plt.show()
 
