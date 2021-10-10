@@ -11,8 +11,6 @@ import matplotlib.animation as animation
 
 from double_pendulum import DoublePendulum
 
-fig = plt.figure()
-
 # if color is None:
 #     color = random_hex()
 

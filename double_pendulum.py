@@ -101,6 +101,9 @@ class DoublePendulum:
                 y0=[initial_theta, 0, -10, 0]
             )
             pendula.append(double_pendulum)
+
+            # HACK: temp fix, plotting will be removed soon so the class can 
+            # focus on modeling and not plotting
             double_pendulum.plot(fig)
             initial_theta += dtheta
             created_pendula += 1
