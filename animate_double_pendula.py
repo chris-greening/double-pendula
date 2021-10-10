@@ -3,49 +3,83 @@ initial conditions to exemplify the signficance of initial conditions in a
 chaotic systems
 """
 
+import string
+from typing import List
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 from double_pendulum import DoublePendulum
 
-fig = plt.figure()
+def random_hex() -> str:
+    """Return a random hex color i.e. #FFFFFF"""
+    hex_value = "".join(
+        np.random.choice(
+            list(string.hexdigits), 
+            6
+        )
+    )
+    return f"#{hex_value}"
 
 def animate(i):
+    time_template = 'time = %.1fs'
+    dt = .05
     return_arr = []
-    for double_pendulum in pendula:
-        double_pendulum.set_frame(i=i)
-
+    for double_pendulum, ax_data in pendula_axes:
+        ax, line, time_text = ax_data
+        frame_x, frame_y = double_pendulum.get_frame_coordinates(i)
+        line.set_data(frame_x, frame_y)
+        time_text.set_text(time_template % (dt*i))
         return_arr.extend([
-            double_pendulum.line,
-            double_pendulum.time_text,
-            double_pendulum.pendulum1.p,
-            double_pendulum.pendulum2.p
+            line,
+            time_text,
         ])
     return return_arr
 
-if __name__ == "__main__":  
-    NUM_PENDULUMS = 10
-    L1 = 5
-    L2 = 5
-
-    pendula = []
-    initial_dtheta = 0
-    initial_theta = 90
-    dtheta = .5
-
-    #creates pendula 
-    for _ in range(NUM_PENDULUMS):
-        double_pendulum = DoublePendulum(
-            L1=L1,
-            L2=L2,
-            y0=[initial_theta-initial_dtheta, 0, -10, 0]
+def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]) -> List["matplotlib.axes._subplots.AxesSubplot"]:
+    """Create all the individual axes for the double pendula"""
+    axes = []
+    longest_double_pendulum = max(pendula, key=lambda x: x.max_length)
+    for i, double_pendulum in enumerate(pendula):
+        color = random_hex()
+        ax = _create_individual_axis(
+            longest_double_pendulum=longest_double_pendulum, 
+            fig=fig, 
+            i=i
         )
-        double_pendulum.plot(fig=fig)
-        pendula.append(double_pendulum)
-        initial_dtheta += dtheta
+        line, = ax.plot([], [], 'o-', lw=2, color=color)
+        time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
+        axes.append((ax, line, time_text))
+    return axes
 
-    # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
+def _create_individual_axis(longest_double_pendulum: "DoublePendulum", fig: "matplotlib.figure.Figure", i: int) -> None:
+    """Create dynamic axis to plot the double pendulum to"""
+    # HACK: adding a label to supress the MatplotlibDeprecationWarning causes 
+    # the plot to drastically slow down so purposely not fixing that for now
+    ax = fig.add_subplot(
+        111, 
+        autoscale_on=False, 
+        xlim=(
+            -longest_double_pendulum.max_length, 
+            longest_double_pendulum.max_length
+        ), 
+        ylim=(
+            -longest_double_pendulum.max_length, 
+            longest_double_pendulum.max_length
+        ),
+    )
+    ax.set_aspect('equal')
+    ax.grid()
+    return ax
+
+if __name__ == "__main__":  
+
+    # Create the pendula
+    fig = plt.figure()
+    pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10) 
+    axes = create_axes(fig=fig, pendula=pendula)
+    pendula_axes = list(zip(pendula, axes))
 
     ani = animation.FuncAnimation(
         fig, 
@@ -53,10 +87,6 @@ if __name__ == "__main__":
         np.arange(1, len(pendula[0].y)),
         interval=25, 
         blit=True, 
-        init_func=pendula[0].init
     )
-
-    # ani.save('line.gif', dpi=80, writer='imagemagick')
-
     plt.show()
 
