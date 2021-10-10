@@ -3,6 +3,8 @@ initial conditions to exemplify the signficance of initial conditions in a
 chaotic systems
 """
 
+from typing import List
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -10,6 +12,15 @@ import matplotlib.animation as animation
 from double_pendulum import DoublePendulum
 
 fig = plt.figure()
+
+# if color is None:
+#     color = random_hex()
+
+# self.ax = self._create_axis(fig=fig)
+# self.pendulum1.set_axes(self.ax)
+# self.pendulum2.set_axes(self.ax)
+# self.line, = self.ax.plot([], [], 'o-', lw=2, color=color)
+# self.time_text = self.ax.text(0.05, 0.9, '', transform=self.ax.transAxes)
 
 def animate(i):
     return_arr = []
@@ -34,17 +45,9 @@ if __name__ == "__main__":
     initial_theta = 90
     dtheta = .5
 
-    #creates pendula 
-    for _ in range(NUM_PENDULUMS):
-        double_pendulum = DoublePendulum(
-            L1=L1,
-            L2=L2,
-            y0=[initial_theta-initial_dtheta, 0, -10, 0]
-        )
-        double_pendulum.plot(fig=fig)
-        pendula.append(double_pendulum)
-        initial_dtheta += dtheta
-
+    # Create the pendula
+    pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10) 
+    
     # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
 
     ani = animation.FuncAnimation(

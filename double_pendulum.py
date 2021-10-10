@@ -8,6 +8,7 @@ import string
 import pandas as pd
 import numpy as np
 from scipy.integrate import odeint
+import matplotlib.pyplot as plt
 
 class DoublePendulum:
     g = -9.81
@@ -61,6 +62,49 @@ class DoublePendulum:
         self.pendulum2.set_axes(self.ax)
         self.line, = self.ax.plot([], [], 'o-', lw=2, color=color)
         self.time_text = self.ax.text(0.05, 0.9, '', transform=self.ax.transAxes)
+
+    def get_frame_x(self, i: int) -> List[int]:
+        """Return x coordinates of the system of a specific frame"""
+        return [
+            0, 
+            self.pendulum1.x[i], 
+            self.pendulum2.x[i]
+        ]
+    
+    def get_frame_y(self, i: int) -> List[int]:
+        """Return y coordinates of the system of a specific frame"""
+        return [
+            0, 
+            self.pendulum1.y[i],
+            self.pendulum2.y[i]
+        ]
+
+    def set_frame(self, i: int) -> None:
+        """Set the plot of this system to line as it appears at given frame"""
+        frame_x = self.get_frame_x(i=i)
+        frame_y = self.get_frame_y(i=i)
+        self.line.set_data(frame_x, frame_y)
+        self.time_text.set_text(self.time_template % (i*DoublePendulum.dt))
+
+    @classmethod
+    def create_multiple_double_pendula(
+            cls, num_pendula: int = 1, L1: float = 1.0,                                
+            L2: float = 1.0, m1: float = 1.0, m2: float = 1.0, 
+            initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
+        fig = plt.figure()
+        pendula = []
+        created_pendula = 0
+        while created_pendula < num_pendula:
+            double_pendulum = cls(
+                L1=L1,
+                L2=L2,
+                y0=[initial_theta, 0, -10, 0]
+            )
+            pendula.append(double_pendulum)
+            double_pendulum.plot(fig)
+            initial_theta += dtheta
+            created_pendula += 1
+        return pendula
 
     def _create_axis(self, fig: "matplotlib.figure.Figure") -> None:
         """Create dynamic axis to plot the double pendulum to"""
@@ -122,29 +166,6 @@ class DoublePendulum:
         self.line.set_data([], [])
         self.time_text.set_text('')
         return self.line, self.time_text
-
-    def get_frame_x(self, i: int) -> List[int]:
-        """Return x coordinates of the system of a specific frame"""
-        return [
-            0, 
-            self.pendulum1.x[i], 
-            self.pendulum2.x[i]
-        ]
-    
-    def get_frame_y(self, i: int) -> List[int]:
-        """Return y coordinates of the system of a specific frame"""
-        return [
-            0, 
-            self.pendulum1.y[i],
-            self.pendulum2.y[i]
-        ]
-
-    def set_frame(self, i: int) -> None:
-        """Set the plot of this system to line as it appears at given frame"""
-        frame_x = self.get_frame_x(i=i)
-        frame_y = self.get_frame_y(i=i)
-        self.line.set_data(frame_x, frame_y)
-        self.time_text.set_text(self.time_template % (i*DoublePendulum.dt))
 
 class Pendulum:
     def __init__(self, L, m):
