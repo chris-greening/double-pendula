@@ -23,10 +23,14 @@ def random_hex() -> str:
     return f"#{hex_value}"
 
 def animate(i):
+    time_template = 'time = %.1fs'
+    dt = .05
     return_arr = []
-    for double_pendulum in pendula:
-        double_pendulum.set_frame(i=i)
-
+    for double_pendulum, ax, line in pendula_axes:
+        frame_x = double_pendulum.get_frame_x(i=i)
+        frame_y = double_pendulum.get_frame_y(i=i)
+        line.set_data(frame_x, frame_y)
+        time_text.set_text(time_template % (dt))
         return_arr.extend([
             double_pendulum.line,
             double_pendulum.time_text,
@@ -74,10 +78,8 @@ if __name__ == "__main__":
 
     # Create the pendula
     pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10) 
-    
     axes = create_axes(pendula=pendula)
-
-    # plt.plot(pendula[0].x2, pendula[0].y2, color=pendula[0].color)
+    pendula_axes = zip(pendula, axes)
 
     ani = animation.FuncAnimation(
         fig, 
