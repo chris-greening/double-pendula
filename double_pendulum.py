@@ -18,8 +18,7 @@ class DoublePendulum:
     t = np.arange(0, tmax+dt, dt)
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
                  y0: List[int] = [90, 0, -10, 0], g: float = -1*constants.g) -> None:
-        """
-        Instantiates a double pendulum with the given parameters and initial 
+        """Instantiates a double pendulum with the given parameters and initial 
         conditions
 
         Parameters
