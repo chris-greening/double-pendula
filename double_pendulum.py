@@ -8,7 +8,6 @@ import string
 import pandas as pd
 import numpy as np
 from scipy.integrate import odeint
-import matplotlib.pyplot as plt
 
 class DoublePendulum:
     g = -9.81
@@ -91,7 +90,6 @@ class DoublePendulum:
             cls, num_pendula: int = 1, L1: float = 1.0,                                
             L2: float = 1.0, m1: float = 1.0, m2: float = 1.0, 
             initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
-        fig = plt.figure()
         pendula = []
         created_pendula = 0
         while created_pendula < num_pendula:
@@ -108,19 +106,6 @@ class DoublePendulum:
             initial_theta += dtheta
             created_pendula += 1
         return pendula
-
-    def _create_axis(self, fig: "matplotlib.figure.Figure") -> None:
-        """Create dynamic axis to plot the double pendulum to"""
-        ax_range = self.pendulum1.L + self.pendulum2.L
-        ax = fig.add_subplot(
-            111, 
-            autoscale_on=False, 
-            xlim=(-ax_range, ax_range), 
-            ylim=(-ax_range, ax_range),
-        )
-        ax.set_aspect('equal')
-        ax.grid()
-        return ax
 
     def _calculate_system(self, L1: int, m1: int, L2: int, m2: int) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
@@ -189,12 +174,3 @@ class Pendulum:
         self.x = self.L*np.sin(self.theta) + x0
         self.y = self.L*np.cos(self.theta) + y0
 
-def random_hex() -> str:
-    """Return a random hex color i.e. #FFFFFF"""
-    hex_value = "".join(
-        np.random.choice(
-            list(string.hexdigits), 
-            6
-        )
-    )
-    return f"#{hex_value}"
