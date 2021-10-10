@@ -125,11 +125,38 @@ class DoublePendulum:
         return theta1dot, z1dot, theta2dot, z2dot
 
 class Pendulum:
-    def __init__(self, L, m):
+    def __init__(self, L: float = 1.0, m: float = 1.0) -> None:
+        """A single pendulum with rod of length L and a bob of mass M fixed at 
+        the end
+        
+        Parameters
+        ----------
+        L : float
+            Length of the pendulum rod
+        m : float
+            Mass of the bob
+        """
         self.L = L
         self.m = m
 
-    def calculate_path(self, theta, dtheta, x0=0, y0=0):
+    def calculate_path(self, theta: float, dtheta: float, x0: float = 0, y0: float = 0) -> None:
+        """Calculate the (x,y) coordinate path of the pendulum
+        
+        Parameters
+        ----------
+        theta : float 
+            Angle of the single pendulum rod
+        dtheta : float 
+            Change of angle of the pendulum rod
+        x0 : float 
+            x-offset. If this is only a single pendulum this is zero but if 
+            this is a pendulum fixed to the bob of another pendulum then this 
+            is nonzero
+        y0 : float 
+            y-offset. If this is only a single pendulum this is zero but if 
+            this is a pendulum fixed to the bob of another pendulum then this 
+            is nonzero
+        """
         self.theta = theta
         self.dtheta = dtheta
         self.df = pd.DataFrame({"theta": self.theta, "dtheta": self.dtheta})
