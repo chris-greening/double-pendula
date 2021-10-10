@@ -10,6 +10,8 @@ import numpy as np
 from scipy.integrate import odeint
 from scipy import constants
 
+# TODO: leverage inheritance and make DoublePendulum a child of Pendulum
+
 class DoublePendulum:
     tmax = 15.0
     dt = .05
@@ -23,15 +25,17 @@ class DoublePendulum:
         Parameters
         ----------
         L1 : int = 1
-            Length of the first pendulum arm
+            Length of the first pendulum arm (m)
         L2 : int = 1
-            Length of the second pendulum arm 
+            Length of the second pendulum arm (m)
         m1 : int = 1
-            Mass of the first pendulum bob
+            Mass of the first pendulum bob (g)
         m2 : int = 1
-            Mass of the second pendulum bob
+            Mass of the second pendulum bob (g)
         y0 : List[int] = [90, 0, -10, 0]
-            Initial angle (in degrees) and angular velocity
+            Initial angle and angular velocity (degrees)
+        g : float = -9.81
+            Gravitational acceleration (m/(s^2))
         """
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
@@ -40,6 +44,8 @@ class DoublePendulum:
 
         # Do the numerical integration of the equations of motion
         self._calculate_system(L1, m1, L2, m2)
+
+        self.max_length = self.pendulum1.L + self.pendulum2.L
 
     def get_frame_x(self, i: int) -> Tuple[int]:
         """Return x coordinates of the system of a specific index"""
@@ -60,6 +66,16 @@ class DoublePendulum:
     def get_frame_coordinates(self, i: int) -> Tuple[Tuple[int]]:
         """Return the x,y coordinates at a given frame"""
         return (self.get_frame_x(i), self.get_frame_y(i))
+
+    def get_max_x(self) -> float:
+        """Return the maximum x-value that this system reaches"""
+        return self.pendulum2.get_max_x()
+    
+    def get_max_y(self) -> float:
+        return self.pendulum2.get_max_y()
+
+    def get_max_coordinates(self) -> float:
+        return self.pendulum2.get_max_coordinates()
 
     @classmethod
     def create_multiple_double_pendula(
@@ -118,11 +134,12 @@ class DoublePendulum:
 
         c, s = np.cos(theta1-theta2), np.sin(theta1-theta2)
 
-        z1dot = (m2*g*np.sin(theta2)*c - m2*s*(L1*z1**2*c + L2*z2**2) -
-                (m1+m2)*g*np.sin(theta1)) / L1 / (m1 + m2*s**2)
-        z2dot = ((m1+m2)*(L1*z1**2*s - g*np.sin(theta2) + g*np.sin(theta1)*c) + 
-                m2*L2*z2**2*s*c) / L2 / (m1 + m2*s**2)
+        z1dot = (m2*g*np.sin(theta2)*c - m2*s*(L1*z1**2*c + L2*z2**2) - (m1+m2)*g*np.sin(theta1)) / L1 / (m1 + m2*s**2)
+        z2dot = ((m1+m2)*(L1*z1**2*s - g*np.sin(theta2) + g*np.sin(theta1)*c) + m2*L2*z2**2*s*c) / L2 / (m1 + m2*s**2)
         return theta1dot, z1dot, theta2dot, z2dot
+
+    def __repr__(self):
+        return f"< DoublePendulum: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"
 
 class Pendulum:
     def __init__(self, L: float = 1.0, m: float = 1.0) -> None:
@@ -159,7 +176,19 @@ class Pendulum:
         """
         self.theta = theta
         self.dtheta = dtheta
-        self.df = pd.DataFrame({"theta": self.theta, "dtheta": self.dtheta})
         self.x = self.L*np.sin(self.theta) + x0
         self.y = self.L*np.cos(self.theta) + y0
+        self.df = pd.DataFrame({"theta": self.theta, "dtheta": self.dtheta, 
+                                "x": self.x, "y": self.y})
 
+    def get_max_x(self) -> float:
+        """Return the maximum x-value that this pendulum reaches"""
+        return max(self.x)
+    
+    def get_max_y(self) -> float:
+        """Return the maximum y-value that this pendulum reaches"""
+        return max(self.y)
+
+    def get_max_coordinates(self) -> Tuple[float, float]:
+        """Return maximum cartesian coordinate that this system reaches"""
+        return (self.get_max_x(), self.get_max_y())

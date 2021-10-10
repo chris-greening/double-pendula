@@ -38,23 +38,36 @@ def animate(i):
     return return_arr
 
 def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]) -> List["matplotlib.axes._subplots.AxesSubplot"]:
+    """Create all the individual axes for the double pendula"""
     axes = []
-    for double_pendulum in pendula:
+    longest_double_pendulum = max(pendula, key=lambda x: x.max_length)
+    for i, double_pendulum in enumerate(pendula):
         color = random_hex()
-        ax = _create_individual_axis(double_pendulum=double_pendulum, fig=fig)
+        ax = _create_individual_axis(
+            longest_double_pendulum=longest_double_pendulum, 
+            fig=fig, 
+            i=i
+        )
         line, = ax.plot([], [], 'o-', lw=2, color=color)
         time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
         axes.append((ax, line, time_text))
     return axes
 
-def _create_individual_axis(double_pendulum: "DoublePendulum", fig: "matplotlib.figure.Figure") -> None:
+def _create_individual_axis(longest_double_pendulum: "DoublePendulum", fig: "matplotlib.figure.Figure", i: int) -> None:
     """Create dynamic axis to plot the double pendulum to"""
-    ax_range = double_pendulum.pendulum1.L + double_pendulum.pendulum2.L
+    # HACK: adding a label to supress the MatplotlibDeprecationWarning causes 
+    # the plot to drastically slow down so purposely not fixing that for now
     ax = fig.add_subplot(
         111, 
         autoscale_on=False, 
-        xlim=(-ax_range, ax_range), 
-        ylim=(-ax_range, ax_range),
+        xlim=(
+            -longest_double_pendulum.max_length, 
+            longest_double_pendulum.max_length
+        ), 
+        ylim=(
+            -longest_double_pendulum.max_length, 
+            longest_double_pendulum.max_length
+        ),
     )
     ax.set_aspect('equal')
     ax.grid()
