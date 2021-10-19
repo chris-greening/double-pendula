@@ -11,4 +11,4 @@ Pictured below:
 - [Visualizing the Butterfly Effect with Python](https://dev.to/chrisgreening/visualizing-the-butterfly-effect-with-python-39m3)
 
 # Contact me
-[www.christophergreening.com/contact](https://christophergreening.com/contact)
+[www.christophergreening.com/contact](https://www.christophergreening.com/contact)
