@@ -1,6 +1,6 @@
 """Visualizing the butterfly effect via Python and Lagrangian mechanics."""
-#Author: Chris Greening
-#Date: 7/15/19
+# Author: Chris Greening
+# Date: 2019-07-15
 
 from typing import List
 import string
