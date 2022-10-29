@@ -88,7 +88,7 @@ class DoublePendulum:
                 L1=L1,
                 L2=L2,
                 m1=m1, 
-                m2=m2
+                m2=m2,
                 y0=[initial_theta, 0, -10, 0]
             )
             pendula.append(double_pendulum)
