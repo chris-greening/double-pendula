@@ -2,7 +2,7 @@
 
 import numpy as np
 
-def _derivative(y, t, L1, L2, m1, m2, g):
+def derivative(y, t, L1, L2, m1, m2, g):
     """Return the first derivatives of y = theta1, z1, theta2, z2."""
     
     # Unpack initial conditions
