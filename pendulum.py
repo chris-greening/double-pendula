@@ -2,6 +2,9 @@
 # Date: 2022-10-29
 # Purpose: Model of a single pendulum
 
+import pandas as pd
+import numpy as np
+
 class Pendulum:
     def __init__(self, L, m):
         self.L = L
