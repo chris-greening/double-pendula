@@ -2,6 +2,8 @@
 # Author: Chris Greening
 # Date: 2022-10-29
 
+from typing import Tuple
+
 import numpy as np
 import pandas as pd
 
