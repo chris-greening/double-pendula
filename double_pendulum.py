@@ -98,16 +98,7 @@ class DoublePendulum:
     def _calculate_system(self) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
         system"""
-        self.y = odeint(
-            _derivative, 
-            self.y0, 
-            self.t, 
-            args=(
-                self.pendulum1.L, self.pendulum2.L, 
-                self.pendulum1.m, self.pendulum2.m,
-                self.g
-            )
-        )
+        self.y = self._solve_ode()
 
         # Calculate individual pendulum paths
         self.pendulum1.calculate_path(
@@ -125,6 +116,15 @@ class DoublePendulum:
         self.df = pd.DataFrame(
             self.y, 
             columns=["theta1", "dtheta1", "theta2", "dtheta2"]
+        )
+
+    def _solve_ode(self) -> Tuple[int]:
+        """Return solved components from ODE of the system"""
+        return odeint(
+            _derivative, 
+            self.y0, 
+            self.t, 
+            args=(self.pendulum1.L, self.pendulum2.L, self.pendulum1.m, self.pendulum2.m, self.g)
         )
 
     def __repr__(self):
