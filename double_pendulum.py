@@ -9,6 +9,8 @@ import pandas as pd
 import numpy as np
 from scipy.integrate import odeint
 
+from pendulum import Pendulum
+
 class DoublePendulum:
     g = -9.81
     tmax = 15.0
