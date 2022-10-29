@@ -1,6 +1,6 @@
-"""Objects for modeling the system via Lagrangian mechanics"""
-#Author: Chris Greening
-#Date: 7/15/19
+"""Model of a double pendulum"""
+# Author: Chris Greening
+# Date: 2019-07-15
 
 from typing import Tuple, List
 
