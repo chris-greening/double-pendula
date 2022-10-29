@@ -67,28 +67,6 @@ class DoublePendulum:
     def get_max_coordinates(self) -> float:
         return self.pendulum2.get_max_coordinates()
 
-    @classmethod
-    def create_multiple_double_pendula(
-            cls, num_pendula: int = 1, L1: float = 1.0,                                
-            L2: float = 1.0, m1: float = 1.0, m2: float = 1.0, 
-            initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
-        """Returns a list of DoublePendulum's each offset slightly from each other"""
-        pendula = []
-        created_pendula = 0
-        while created_pendula < num_pendula:
-            double_pendulum = cls(
-                L1=L1,
-                L2=L2,
-                m1=m1, 
-                m2=m2,
-                y0=[initial_theta, 0, -10, 0]
-            )
-            pendula.append(double_pendulum)
-
-            initial_theta += dtheta
-            created_pendula += 1
-        return pendula
-
     def _calculate_system(self) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
         system"""
@@ -119,14 +97,27 @@ class DoublePendulum:
             columns=["theta1", "dtheta1", "theta2", "dtheta2"]
         )
 
-    def _solve_ode(self, derivative, y0, t, g, pendulum1, pendulum2) -> Tuple[int]:
-        """Return solved components from ODE of the system"""
-        return odeint(
-            derivative, 
-            y0, 
-            t, 
-            args=(pendulum1.L, pendulum2.L, pendulum1.m, pendulum2.m, g)
-        )
+    @classmethod
+    def create_multiple_double_pendula(
+            cls, num_pendula: int = 1, L1: float = 1.0,                                
+            L2: float = 1.0, m1: float = 1.0, m2: float = 1.0, 
+            initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
+        """Returns a list of DoublePendulum's each offset slightly from each other"""
+        pendula = []
+        created_pendula = 0
+        while created_pendula < num_pendula:
+            double_pendulum = cls(
+                L1=L1,
+                L2=L2,
+                m1=m1, 
+                m2=m2,
+                y0=[initial_theta, 0, -10, 0]
+            )
+            pendula.append(double_pendulum)
+
+            initial_theta += dtheta
+            created_pendula += 1
+        return pendula
 
     def __repr__(self):
         return f"< DoublePendulum: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"
