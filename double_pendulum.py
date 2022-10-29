@@ -7,7 +7,7 @@ import string
 
 import pandas as pd
 import numpy as np
-from scipy.integrate import odeint
+import scipy.integrate
 
 from pendulum import Pendulum
 
@@ -80,7 +80,7 @@ class DoublePendulum:
     def _calculate_system(self, L1: int, m1: int, L2: int, m2: int) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
         system"""
-        self.y = odeint(self.derivative, self.y0, self.t, 
+        self.y = scipy.integrate.odeint(self.derivative, self.y0, self.t, 
                         args=(self.pendulum1.L, self.pendulum2.L, 
                               self.pendulum1.m, self.pendulum2.m,
                               DoublePendulum.g)
