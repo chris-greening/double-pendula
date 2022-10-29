@@ -5,7 +5,7 @@
 Pictured below: 
 300 double pendulums with nearly identical (but not quite) start conditions
 
-<img src="300.gif">
+<img src="media/300.gif">
 
 # Blog post
 - [Visualizing the Butterfly Effect with Python](https://dev.to/chrisgreening/visualizing-the-butterfly-effect-with-python-39m3)
