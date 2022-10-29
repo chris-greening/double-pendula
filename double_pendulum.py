@@ -125,14 +125,13 @@ class DoublePendulum:
         return odeint(
             _derivative, 
             self.y0, 
-            self.t, 
             args=(self.pendulum1.L, self.pendulum2.L, self.pendulum1.m, self.pendulum2.m, self.g)
         )
 
     def __repr__(self):
         return f"< DoublePendulum: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"
 
-def _derivative(y, t, L1, L2, m1, m2, g):
+def _derivative(y, L1, L2, m1, m2, g):
     """Return the first derivatives of y = theta1, z1, theta2, z2."""
     
     # Unpack initial conditions
