@@ -9,6 +9,8 @@ import numpy as np
 from scipy.integrate import odeint
 from scipy import constants
 
+from pendulum import Pendulum
+
 class DoublePendulum:
     tmax = 15.0
     dt = .05
