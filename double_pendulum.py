@@ -48,19 +48,11 @@ class DoublePendulum:
 
     def get_frame_x(self, i: int) -> Tuple[int]:
         """Return x coordinates of the system of a specific index"""
-        return (
-            0, 
-            self.pendulum1.x[i], 
-            self.pendulum2.x[i]
-        )
+        return (0, self.pendulum1.x[i], self.pendulum2.x[i])
     
     def get_frame_y(self, i: int) -> Tuple[int]:
         """Return y coordinates of the system of a specific index"""
-        return (
-            0, 
-            self.pendulum1.y[i],
-            self.pendulum2.y[i]
-        )
+        return (0, self.pendulum1.y[i],self.pendulum2.y[i])
 
     def get_frame_coordinates(self, i: int) -> Tuple[Tuple[int]]:
         """Return the x,y coordinates at a given frame"""
