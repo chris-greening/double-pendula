@@ -6,11 +6,10 @@ from typing import Tuple, List
 
 import pandas as pd
 import numpy as np
-from scipy.integrate import odeint
 from scipy import constants
 
 from pendulum import Pendulum
-from equations import derivative
+from equations import derivative, solve_ode
 
 class DoublePendulum:
     tmax = 15.0
@@ -93,7 +92,14 @@ class DoublePendulum:
     def _calculate_system(self) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
         system"""
-        self.y = self._solve_ode()
+        self.y = solve_ode(
+            derivative, 
+            self.y0, 
+            self.t, 
+            self.g,
+            self.pendulum1, 
+            self.pendulum2
+        )
 
         # Calculate individual pendulum paths
         self.pendulum1.calculate_path(
@@ -113,13 +119,13 @@ class DoublePendulum:
             columns=["theta1", "dtheta1", "theta2", "dtheta2"]
         )
 
-    def _solve_ode(self) -> Tuple[int]:
+    def _solve_ode(self, derivative, y0, t, g, pendulum1, pendulum2) -> Tuple[int]:
         """Return solved components from ODE of the system"""
         return odeint(
             derivative, 
-            self.y0, 
-            self.t, 
-            args=(self.pendulum1.L, self.pendulum2.L, self.pendulum1.m, self.pendulum2.m, self.g)
+            y0, 
+            t, 
+            args=(pendulum1.L, pendulum2.L, pendulum1.m, pendulum2.m, g)
         )
 
     def __repr__(self):

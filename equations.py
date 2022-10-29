@@ -1,6 +1,15 @@
 """Module for storing equations relevant to calculating the double pendulum's movement"""
 
 import numpy as np
+import scipy.integrate
+
+def solve_ode(derivative_func, y0, t, g, pendulum1, pendulum2):
+    return scipy.integrate.odeint(
+        derivative_func, 
+        y0, 
+        t, 
+        args=(pendulum1.L, pendulum2.L, pendulum1.m, pendulum2.m, g)
+    )
 
 def derivative(y, t, L1, L2, m1, m2, g):
     """Return the first derivatives of y = theta1, z1, theta2, z2."""
