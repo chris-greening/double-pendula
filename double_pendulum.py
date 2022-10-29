@@ -95,7 +95,7 @@ class DoublePendulum:
             created_pendula += 1
         return pendula
 
-    def _calculate_system(self, L1: int, m1: int, L2: int, m2: int) -> None:
+    def _calculate_system(self) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the 
         system"""
         self.y = odeint(
