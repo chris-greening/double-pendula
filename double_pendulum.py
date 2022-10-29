@@ -10,8 +10,6 @@ import numpy as np
 from scipy.integrate import odeint
 from scipy import constants
 
-# TODO: leverage inheritance and make DoublePendulum a child of Pendulum
-
 class DoublePendulum:
     tmax = 15.0
     dt = .05
