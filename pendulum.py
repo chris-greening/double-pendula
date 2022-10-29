@@ -18,6 +18,8 @@ class Pendulum:
         self.w = self.ax.plot([], [])
 
     def calculate_path(self, theta, dtheta, x0=0, y0=0):
+        """Set instance variables that define the pendulum's path. x0 and y0 are optional
+        horizontal and vertical offsets"""
         self.theta = theta
         self.dtheta = dtheta
         self.df = pd.DataFrame({"theta": self.theta, "dtheta": self.dtheta})
