@@ -2,6 +2,9 @@
 # Author: Chris Greening
 # Date: 2022-10-29
 
+import numpy as np
+import pandas as pd
+
 class Pendulum:
     def __init__(self, L: float = 1.0, m: float = 1.0) -> None:
         """A single pendulum with rod of length L and a bob of mass M fixed at 
