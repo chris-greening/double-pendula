@@ -41,7 +41,7 @@ class DoublePendulum:
         self.g = g
 
         # Do the numerical integration of the equations of motion
-        self._calculate_system(L1, m1, L2, m2)
+        self._calculate_system()
 
         self.max_length = self.pendulum1.L + self.pendulum2.L
 
