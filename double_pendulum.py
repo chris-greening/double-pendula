@@ -141,5 +141,10 @@ class DoublePendulum:
         z2dot = ((m1+m2)*(L1*z1**2*s - g*np.sin(theta2) + g*np.sin(theta1)*c) + m2*L2*z2**2*s*c) / L2 / (m1 + m2*s**2)
         return theta1dot, z1dot, theta2dot, z2dot
 
+    @staticmethod
+    def _calculate_z1dot(m1, m2, L1, L2, theta1, theta2, z1, z2, g, s, c) -> float:
+        """Return calculated z1dot"""
+        return (m2*g*np.sin(theta2)*c - m2*s*(L1*z1**2*c + L2*z2**2) - (m1+m2)*g*np.sin(theta1)) / L1 / (m1 + m2*s**2)
+
     def __repr__(self):
         return f"< DoublePendulum: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"
