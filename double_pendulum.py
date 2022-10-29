@@ -10,6 +10,7 @@ from scipy.integrate import odeint
 from scipy import constants
 
 from pendulum import Pendulum
+from equations import derivative
 
 class DoublePendulum:
     tmax = 15.0
@@ -123,7 +124,7 @@ class DoublePendulum:
     def _solve_ode(self) -> Tuple[int]:
         """Return solved components from ODE of the system"""
         return odeint(
-            _derivative, 
+            derivative, 
             self.y0, 
             self.t, 
             args=(self.pendulum1.L, self.pendulum2.L, self.pendulum1.m, self.pendulum2.m, self.g)
