@@ -15,9 +15,9 @@ class DoublePendulum:
     tmax = 15.0
     dt = .05
     t = np.arange(0, tmax+dt, dt)
-    def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1, 
+    def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1,
                  y0: List[int] = [90, 0, -10, 0], g: float = -1*constants.g) -> None:
-        """Instantiates a double pendulum with the given parameters and initial 
+        """Instantiates a double pendulum with the given parameters and initial
         conditions
 
         Parameters
@@ -68,39 +68,39 @@ class DoublePendulum:
         return self.pendulum2.get_max_coordinates()
 
     def _calculate_system(self) -> None:
-        """Solve the ODE and calculate the path for both pendulum's in the 
+        """Solve the ODE and calculate the path for both pendulum's in the
         system"""
         self.y = solve_ode(
-            derivative, 
-            self.y0, 
-            self.t, 
+            derivative,
+            self.y0,
+            self.t,
             self.g,
-            self.pendulum1, 
+            self.pendulum1,
             self.pendulum2
         )
 
         # Calculate individual pendulum paths
         self.pendulum1.calculate_path(
-            theta=self.y[:, 0], 
+            theta=self.y[:, 0],
             dtheta=self.y[:, 1]
         )
         self.pendulum2.calculate_path(
-            theta=self.y[:, 2], 
-            dtheta=self.y[:, 3], 
-            x0=self.pendulum1.x, 
+            theta=self.y[:, 2],
+            dtheta=self.y[:, 3],
+            x0=self.pendulum1.x,
             y0=self.pendulum1.y
         )
 
         self.w = self.y[:, 1]
         self.df = pd.DataFrame(
-            self.y, 
+            self.y,
             columns=["theta1", "dtheta1", "theta2", "dtheta2"]
         )
 
     @classmethod
     def create_multiple_double_pendula(
-            cls, num_pendula: int = 1, L1: float = 1.0,                                
-            L2: float = 1.0, m1: float = 1.0, m2: float = 1.0, 
+            cls, num_pendula: int = 1, L1: float = 1.0,                         
+            L2: float = 1.0, m1: float = 1.0, m2: float = 1.0,
             initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
         """Returns a list of DoublePendulum's each offset slightly from each other"""
         pendula = []
@@ -109,7 +109,7 @@ class DoublePendulum:
             double_pendulum = cls(
                 L1=L1,
                 L2=L2,
-                m1=m1, 
+                m1=m1,
                 m2=m2,
                 y0=[initial_theta, 0, -10, 0]
             )
