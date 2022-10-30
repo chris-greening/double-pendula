@@ -104,7 +104,7 @@ class DoublePendulum:
             L2: float = 1.0, m1: float = 1.0, m2: float = 1.0,
             initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
         """Returns a list of DoublePendulum's each offset slightly from each other"""
-        # pylint: disable=no-member
+        # pylint: disable=too-many-arguments
         pendula = []
         created_pendula = 0
         while created_pendula < num_pendula:
