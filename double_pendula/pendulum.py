@@ -41,6 +41,7 @@ class Pendulum:
             this is a pendulum fixed to the bob of another pendulum then this
             is nonzero
         """
+        # pylint: disable=attribute-defined-outside-init
         self.theta = theta
         self.dtheta = dtheta
         self.x = self.L*np.sin(self.theta) + x0
