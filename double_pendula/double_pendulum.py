@@ -35,6 +35,7 @@ class DoublePendulum:
         g : float = -9.81
             Gravitational acceleration (m/(s^2))
         """
+        # pylint: disable=too-many-arguments
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
         self.y0 = np.array(np.radians(y0))
