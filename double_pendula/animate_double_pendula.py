@@ -74,7 +74,6 @@ def _create_individual_axis(longest_double_pendulum: "DoublePendulum", fig: "mat
     return ax
 
 if __name__ == "__main__":
-
     # Create the pendula
     fig = plt.figure()
     pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10)
