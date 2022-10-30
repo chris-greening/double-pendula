@@ -12,6 +12,7 @@ from pendulum import Pendulum
 from equations import derivative, solve_ode
 
 class DoublePendulum:
+    """Model of a double pendulum"""
     tmax = 15.0
     dt = .05
     t = np.arange(0, tmax+dt, dt)
