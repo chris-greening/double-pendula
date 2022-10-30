@@ -16,7 +16,7 @@ class DoublePendulum:
     dt = .05
     t = np.arange(0, tmax+dt, dt)
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1,
-                 y0: List[int] = [90, 0, -10, 0], g: float = -1*constants.g) -> None:
+                 y0: List[int] = None, g: float = -1*constants.g) -> None:
         """Instantiates a double pendulum with the given parameters and initial
         conditions
 
@@ -36,6 +36,8 @@ class DoublePendulum:
             Gravitational acceleration (m/(s^2))
         """
         # pylint: disable=too-many-arguments
+        if y0 is None:
+            y0 = [90, 0, -10, 0]
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
         self.y0 = np.array(np.radians(y0))
