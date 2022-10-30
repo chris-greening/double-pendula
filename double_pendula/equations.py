@@ -6,6 +6,7 @@ import numpy as np
 import scipy.integrate
 
 def solve_ode(derivative_func, y0, t, g, pendulum1, pendulum2):
+    """Return solved ODE"""
     return scipy.integrate.odeint(
         derivative_func,
         y0,
