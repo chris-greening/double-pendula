@@ -48,7 +48,7 @@ class DoublePendulum:
     def get_frame_x(self, i: int) -> Tuple[int]:
         """Return x coordinates of the system of a specific index"""
         return (0, self.pendulum1.x[i], self.pendulum2.x[i])
-    
+
     def get_frame_y(self, i: int) -> Tuple[int]:
         """Return y coordinates of the system of a specific index"""
         return (0, self.pendulum1.y[i],self.pendulum2.y[i])
@@ -60,7 +60,7 @@ class DoublePendulum:
     def get_max_x(self) -> float:
         """Return the maximum x-value that this system reaches"""
         return self.pendulum2.get_max_x()
-    
+
     def get_max_y(self) -> float:
         return self.pendulum2.get_max_y()
 
