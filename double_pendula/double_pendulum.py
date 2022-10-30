@@ -99,7 +99,7 @@ class DoublePendulum:
 
     @classmethod
     def create_multiple_double_pendula(
-            cls, num_pendula: int = 1, L1: float = 1.0,                         
+            cls, num_pendula: int = 1, L1: float = 1.0,                       
             L2: float = 1.0, m1: float = 1.0, m2: float = 1.0,
             initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
         """Returns a list of DoublePendulum's each offset slightly from each other"""
