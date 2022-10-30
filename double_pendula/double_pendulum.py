@@ -124,4 +124,5 @@ class DoublePendulum:
         return pendula
 
     def __repr__(self):
+        # pylint: disable=line-too-long
         return f"< DoublePendulum: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"
