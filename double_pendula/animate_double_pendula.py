@@ -16,7 +16,7 @@ def random_hex() -> str:
     """Return a random hex color i.e. #FFFFFF"""
     hex_value = "".join(
         np.random.choice(
-            list(string.hexdigits), 
+            list(string.hexdigits),
             6
         )
     )
@@ -44,8 +44,8 @@ def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]
     for i, double_pendulum in enumerate(pendula):
         color = random_hex()
         ax = _create_individual_axis(
-            longest_double_pendulum=longest_double_pendulum, 
-            fig=fig, 
+            longest_double_pendulum=longest_double_pendulum,
+            fig=fig,
             i=i
         )
         line, = ax.plot([], [], 'o-', lw=2, color=color)
@@ -55,17 +55,17 @@ def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]
 
 def _create_individual_axis(longest_double_pendulum: "DoublePendulum", fig: "matplotlib.figure.Figure", i: int) -> None:
     """Create dynamic axis to plot the double pendulum to"""
-    # HACK: adding a label to supress the MatplotlibDeprecationWarning causes 
+    # HACK: adding a label to supress the MatplotlibDeprecationWarning causes
     # the plot to drastically slow down so purposely not fixing that for now
     ax = fig.add_subplot(
-        111, 
-        autoscale_on=False, 
+        111,
+        autoscale_on=False,
         xlim=(
-            -longest_double_pendulum.max_length, 
+            -longest_double_pendulum.max_length,
             longest_double_pendulum.max_length
-        ), 
+        ),
         ylim=(
-            -longest_double_pendulum.max_length, 
+            -longest_double_pendulum.max_length,
             longest_double_pendulum.max_length
         ),
     )
@@ -73,19 +73,19 @@ def _create_individual_axis(longest_double_pendulum: "DoublePendulum", fig: "mat
     ax.grid()
     return ax
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
 
     # Create the pendula
     fig = plt.figure()
-    pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10) 
+    pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10)
     axes = create_axes(fig=fig, pendula=pendula)
     pendula_axes = list(zip(pendula, axes))
 
     ani = animation.FuncAnimation(
-        fig, 
-        animate, 
+        fig,
+        animate,
         np.arange(1, len(pendula[0].y)),
-        interval=25, 
-        blit=True, 
+        interval=25,
+        blit=True,
     )
     plt.show()
