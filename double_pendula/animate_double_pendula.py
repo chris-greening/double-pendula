@@ -89,4 +89,3 @@ if __name__ == "__main__":
         blit=True, 
     )
     plt.show()
-
