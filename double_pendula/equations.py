@@ -1,4 +1,6 @@
 """Module for storing equations relevant to calculating the double pendulum's movement"""
+# Author: Chris Greening
+# Date: 2022-10-29
 
 import numpy as np
 import scipy.integrate
