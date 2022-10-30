@@ -62,10 +62,11 @@ class DoublePendulum:
         return (self.get_frame_x(i), self.get_frame_y(i))
 
     def get_max_x(self) -> float:
-        """Return the maximum x-value that this system reaches"""
+        """Return the maximum x-coord of the double pendulum"""
         return self.pendulum2.get_max_x()
 
     def get_max_y(self) -> float:
+        """Return the maximum y-coord of the double pendulum"""
         return self.pendulum2.get_max_y()
 
     def get_max_coordinates(self) -> float:
