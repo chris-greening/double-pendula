@@ -70,6 +70,7 @@ class DoublePendulum:
         return self.pendulum2.get_max_y()
 
     def get_max_coordinates(self) -> float:
+        """Return the maximum coordinates the overall system reaches"""
         return self.pendulum2.get_max_coordinates()
 
     def _calculate_system(self) -> None:
