@@ -74,11 +74,7 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
-disable=long-suffix,
-        old-ne-operator,
-        old-octal-literal,
-        non-ascii-bytes-literal,
-        raw-checker-failed,
+disable=raw-checker-failed,
         bad-inline-option,
         locally-disabled,
         file-ignored,
@@ -86,7 +82,6 @@ disable=long-suffix,
         useless-suppression,
         deprecated-pragma,
         use-symbolic-message-instead,
-        eq-without-hash,
         invalid-name,
         import-error
 
