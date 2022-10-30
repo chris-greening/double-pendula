@@ -12,11 +12,12 @@ from pendulum import Pendulum
 from equations import derivative, solve_ode
 
 class DoublePendulum:
+    """Model of a double pendulum"""
     tmax = 15.0
     dt = .05
     t = np.arange(0, tmax+dt, dt)
     def __init__(self, L1: int = 1, L2: int = 1, m1: int = 1, m2: int = 1,
-                 y0: List[int] = [90, 0, -10, 0], g: float = -1*constants.g) -> None:
+                 y0: List[int] = None, g: float = -1*constants.g) -> None:
         """Instantiates a double pendulum with the given parameters and initial
         conditions
 
@@ -35,6 +36,9 @@ class DoublePendulum:
         g : float = -9.81
             Gravitational acceleration (m/(s^2))
         """
+        # pylint: disable=too-many-arguments,too-many-instance-attributes
+        if y0 is None:
+            y0 = [90, 0, -10, 0]
         self.pendulum1 = Pendulum(L1, m1)
         self.pendulum2 = Pendulum(L2, m2)
         self.y0 = np.array(np.radians(y0))
@@ -48,7 +52,7 @@ class DoublePendulum:
     def get_frame_x(self, i: int) -> Tuple[int]:
         """Return x coordinates of the system of a specific index"""
         return (0, self.pendulum1.x[i], self.pendulum2.x[i])
-    
+
     def get_frame_y(self, i: int) -> Tuple[int]:
         """Return y coordinates of the system of a specific index"""
         return (0, self.pendulum1.y[i],self.pendulum2.y[i])
@@ -58,13 +62,15 @@ class DoublePendulum:
         return (self.get_frame_x(i), self.get_frame_y(i))
 
     def get_max_x(self) -> float:
-        """Return the maximum x-value that this system reaches"""
+        """Return the maximum x-coord of the double pendulum"""
         return self.pendulum2.get_max_x()
-    
+
     def get_max_y(self) -> float:
+        """Return the maximum y-coord of the double pendulum"""
         return self.pendulum2.get_max_y()
 
     def get_max_coordinates(self) -> float:
+        """Return the maximum coordinates the overall system reaches"""
         return self.pendulum2.get_max_coordinates()
 
     def _calculate_system(self) -> None:
@@ -99,10 +105,11 @@ class DoublePendulum:
 
     @classmethod
     def create_multiple_double_pendula(
-            cls, num_pendula: int = 1, L1: float = 1.0,                         
+            cls, num_pendula: int = 1, L1: float = 1.0,
             L2: float = 1.0, m1: float = 1.0, m2: float = 1.0,
             initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
         """Returns a list of DoublePendulum's each offset slightly from each other"""
+        # pylint: disable=too-many-arguments
         pendula = []
         created_pendula = 0
         while created_pendula < num_pendula:
@@ -120,4 +127,5 @@ class DoublePendulum:
         return pendula
 
     def __repr__(self):
+        # pylint: disable=line-too-long
         return f"< DoublePendulum: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"

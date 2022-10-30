@@ -6,6 +6,8 @@ import numpy as np
 import scipy.integrate
 
 def solve_ode(derivative_func, y0, t, g, pendulum1, pendulum2):
+    """Return solved ODE"""
+    # pylint: disable=too-many-arguments
     return scipy.integrate.odeint(
         derivative_func,
         y0,
@@ -15,6 +17,7 @@ def solve_ode(derivative_func, y0, t, g, pendulum1, pendulum2):
 
 def derivative(y, t, L1, L2, m1, m2, g):
     """Return the first derivatives of y = theta1, z1, theta2, z2."""
+    # pylint: disable=too-many-locals,unused-argument,too-many-arguments
 
     # Unpack initial conditions
     theta1, z1, theta2, z2 = y
@@ -28,8 +31,10 @@ def derivative(y, t, L1, L2, m1, m2, g):
 
 def _calculate_z1dot(m1, m2, L1, L2, theta1, theta2, z1, z2, g, s, c) -> float:
     """Return calculated z1dot"""
+    # pylint: disable=too-many-arguments,line-too-long
     return (m2*g*np.sin(theta2)*c - m2*s*(L1*z1**2*c + L2*z2**2) - (m1+m2)*g*np.sin(theta1)) / L1 / (m1 + m2*s**2)
 
 def _calculate_z2dot(m1, m2, L1, L2, theta1, theta2, z1, z2, g, s, c) -> float:
     """Return calculated z2dot"""
+    # pylint: disable=too-many-arguments,line-too-long
     return ((m1+m2)*(L1*z1**2*s - g*np.sin(theta2) + g*np.sin(theta1)*c) + m2*L2*z2**2*s*c) / L2 / (m1 + m2*s**2)

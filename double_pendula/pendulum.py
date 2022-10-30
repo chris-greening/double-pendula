@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 class Pendulum:
+    """Model of a single pendulum"""
     def __init__(self, L: float = 1.0, m: float = 1.0) -> None:
         """A single pendulum with rod of length L and a bob of mass M fixed at
         the end
@@ -40,6 +41,7 @@ class Pendulum:
             this is a pendulum fixed to the bob of another pendulum then this
             is nonzero
         """
+        # pylint: disable=attribute-defined-outside-init
         self.theta = theta
         self.dtheta = dtheta
         self.x = self.L*np.sin(self.theta) + x0
@@ -50,7 +52,7 @@ class Pendulum:
     def get_max_x(self) -> float:
         """Return the maximum x-value that this pendulum reaches"""
         return max(self.x)
-    
+
     def get_max_y(self) -> float:
         """Return the maximum y-value that this pendulum reaches"""
         return max(self.y)
