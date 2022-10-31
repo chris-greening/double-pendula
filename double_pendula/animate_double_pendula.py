@@ -1,14 +1,16 @@
-"""Animate a system of multiple double pendula, each with slightly different 
-initial conditions to exemplify the signficance of initial conditions in a 
+"""Animate a system of multiple double pendula, each with slightly different
+initial conditions to exemplify the signficance of initial conditions in a
 chaotic systems
 """
+
+# pylint: disable=redefined-outer-name
 
 import string
 from typing import List
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+from matplotlib import animation
 
 from double_pendulum import DoublePendulum
 
@@ -23,11 +25,12 @@ def random_hex() -> str:
     return f"#{hex_value}"
 
 def animate(i):
+    """Annimation frame"""
     time_template = 'time = %.1fs'
     dt = .05
     return_arr = []
     for double_pendulum, ax_data in pendula_axes:
-        ax, line, time_text = ax_data
+        _, line, time_text = ax_data
         frame_x, frame_y = double_pendulum.get_frame_coordinates(i)
         line.set_data(frame_x, frame_y)
         time_text.set_text(time_template % (dt*i))
@@ -37,11 +40,14 @@ def animate(i):
         ])
     return return_arr
 
-def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]) -> List["matplotlib.axes._subplots.AxesSubplot"]:
+def create_axes(
+        fig: "matplotlib.figure.Figure",
+        pendula: List["DoublePendulum"]
+    ) -> List["matplotlib.axes._subplots.AxesSubplot"]:
     """Create all the individual axes for the double pendula"""
     axes = []
     longest_double_pendulum = max(pendula, key=lambda x: x.max_length)
-    for i, double_pendulum in enumerate(pendula):
+    for i in range(len(pendula)):
         color = random_hex()
         ax = _create_individual_axis(
             longest_double_pendulum=longest_double_pendulum,
@@ -53,10 +59,15 @@ def create_axes(fig: "matplotlib.figure.Figure", pendula: List["DoublePendulum"]
         axes.append((ax, line, time_text))
     return axes
 
-def _create_individual_axis(longest_double_pendulum: "DoublePendulum", fig: "matplotlib.figure.Figure", i: int) -> None:
+def _create_individual_axis(
+        longest_double_pendulum: "DoublePendulum",
+        fig: "matplotlib.figure.Figure",
+        i: int
+    ) -> None:
     """Create dynamic axis to plot the double pendulum to"""
     # HACK: adding a label to supress the MatplotlibDeprecationWarning causes
     # the plot to drastically slow down so purposely not fixing that for now
+    # pylint: disable=unused-argument
     ax = fig.add_subplot(
         111,
         autoscale_on=False,
@@ -74,7 +85,6 @@ def _create_individual_axis(longest_double_pendulum: "DoublePendulum", fig: "mat
     return ax
 
 if __name__ == "__main__":
-
     # Create the pendula
     fig = plt.figure()
     pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10)
