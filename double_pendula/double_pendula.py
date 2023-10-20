@@ -11,7 +11,7 @@ from scipy import constants
 from .pendulum import Pendulum
 from .equations import derivative, solve_ode
 
-class DoublePendulum:
+class DoublePendula:
     """Model of a double pendulum"""
     # pylint: disable=too-many-instance-attributes
     tmax = 15.0
