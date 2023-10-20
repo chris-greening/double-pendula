@@ -44,8 +44,12 @@ class Pendulum:
         self.dtheta = dtheta
         self.x = self.L*np.sin(self.theta) + x0
         self.y = self.L*np.cos(self.theta) + y0
-        self.df = pd.DataFrame({"theta": self.theta, "dtheta": self.dtheta,
-                                "x": self.x, "y": self.y})
+        self.df = pd.DataFrame({
+            "theta": self.theta,
+            "dtheta": self.dtheta,
+            "x": self.x,
+            "y": self.y
+        })
 
     def get_max_x(self) -> float:
         """Return the maximum x-value that this pendulum reaches"""
