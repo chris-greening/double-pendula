@@ -26,6 +26,7 @@ def random_hex() -> str:
 
 def animate(i):
     """Annimation frame"""
+    # pylint: disable=used-before-assignment
     time_template = 'time = %.1fs'
     dt = .05
     return_arr = []
