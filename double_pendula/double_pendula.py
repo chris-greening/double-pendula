@@ -49,7 +49,20 @@ class DoublePendula:
         self.max_length = self.pendulum1.L + self.pendulum2.L
 
     def get_frame_x(self, i: int) -> Tuple[int]:
-        """Return x coordinates of the system of a specific index"""
+        """Return x coordinates of the system of a specific index.
+
+        Parameters
+        ----------
+        i : int
+            The index of the frame for which to return x coordinates.
+
+        Returns
+        -------
+        Tuple[int]
+            A tuple containing the x coordinates of the system at the specified index.
+            The first element is always 0, followed by the x coordinate of `pendulum1` and
+            the x coordinate of `pendulum2`.
+        """
         return (0, self.pendulum1.x[i], self.pendulum2.x[i])
 
     def get_frame_y(self, i: int) -> Tuple[int]:
