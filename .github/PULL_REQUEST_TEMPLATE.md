@@ -1,3 +1,11 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: 'bug'
+assignees: 'chris-greening'
+---
+
 ## Description
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
@@ -12,4 +20,4 @@ Fixes # (issue)
 * [ ] I have written new tests for my changes, as applicable
 * [ ] I successfully ran tests with my changes locally
 
-## Additional notes (optional) 
+## Additional notes (optional)

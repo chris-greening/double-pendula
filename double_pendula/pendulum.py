@@ -60,4 +60,3 @@ class Pendulum:
     def get_max_coordinates(self) -> Tuple[float, float]:
         """Return maximum cartesian coordinate that this system reaches"""
         return (self.get_max_x(), self.get_max_y())
-        
