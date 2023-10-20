@@ -124,7 +124,14 @@ class DoublePendula:
         return self.pendulum2.get_max_y()
 
     def get_max_coordinates(self) -> float:
-        """Return the maximum coordinates the overall system reaches"""
+        """
+        Return the maximum coordinates the overall system reaches.
+
+        Returns
+        -------
+        float
+            The maximum distance from the origin that the overall double pendulum system reaches.
+        """
         return self.pendulum2.get_max_coordinates()
 
     @classmethod
