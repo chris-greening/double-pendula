@@ -84,7 +84,21 @@ class DoublePendula:
         return (0, self.pendulum1.y[i],self.pendulum2.y[i])
 
     def get_frame_coordinates(self, i: int) -> Tuple[Tuple[int]]:
-        """Return the x,y coordinates at a given frame"""
+        """Return the x,y coordinates at a given frame.
+
+        Parameters
+        ----------
+        i : int
+            The index of the frame for which to return x,y coordinates.
+
+        Returns
+        -------
+        Tuple[Tuple[int]]
+            A tuple containing two tuples: the first one is the x coordinates
+            and the second one is the y coordinates of the system at the specified
+            index. Each inner tuple follows the format:
+            (coordinate of origin, coordinate of `pendulum1`, coordinate of `pendulum2`).
+        """
         return (self.get_frame_x(i), self.get_frame_y(i))
 
     def get_max_x(self) -> float:
