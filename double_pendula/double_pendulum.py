@@ -74,6 +74,29 @@ class DoublePendulum:
         """Return the maximum coordinates the overall system reaches"""
         return self.pendulum2.get_max_coordinates()
 
+    @classmethod
+    def create_multiple_double_pendula(
+            cls, num_pendula: int = 1, L1: float = 1.0,
+            L2: float = 1.0, m1: float = 1.0, m2: float = 1.0,
+            initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
+        """Returns a list of DoublePendulum's each offset slightly from each other"""
+        # pylint: disable=too-many-arguments
+        pendula = []
+        created_pendula = 0
+        while created_pendula < num_pendula:
+            double_pendulum = cls(
+                L1=L1,
+                L2=L2,
+                m1=m1,
+                m2=m2,
+                y0=[initial_theta, 0, -10, 0]
+            )
+            pendula.append(double_pendulum)
+
+            initial_theta += dtheta
+            created_pendula += 1
+        return pendula
+
     def _calculate_system(self) -> None:
         """Solve the ODE and calculate the path for both pendulum's in the
         system"""
@@ -103,29 +126,6 @@ class DoublePendulum:
             self.y,
             columns=["theta1", "dtheta1", "theta2", "dtheta2"]
         )
-
-    @classmethod
-    def create_multiple_double_pendula(
-            cls, num_pendula: int = 1, L1: float = 1.0,
-            L2: float = 1.0, m1: float = 1.0, m2: float = 1.0,
-            initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
-        """Returns a list of DoublePendulum's each offset slightly from each other"""
-        # pylint: disable=too-many-arguments
-        pendula = []
-        created_pendula = 0
-        while created_pendula < num_pendula:
-            double_pendulum = cls(
-                L1=L1,
-                L2=L2,
-                m1=m1,
-                m2=m2,
-                y0=[initial_theta, 0, -10, 0]
-            )
-            pendula.append(double_pendulum)
-
-            initial_theta += dtheta
-            created_pendula += 1
-        return pendula
 
     def __repr__(self):
         # pylint: disable=line-too-long
