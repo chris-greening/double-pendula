@@ -7,7 +7,7 @@ with open("README.md", "r", encoding='UTF-8') as fh:
 
 setuptools.setup(
     name="double-pendula",
-    version="0.1.4",
+    version="0.1.5",
     author="Chris Greening",
     author_email="chris@christophergreening.com",
     description="Library for animating double pendula in Python",

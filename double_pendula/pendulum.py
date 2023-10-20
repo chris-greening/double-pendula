@@ -1,6 +1,4 @@
 """Model of a single pendulum"""
-# Author: Chris Greening
-# Date: 2022-10-29
 
 from typing import Tuple
 
@@ -46,17 +44,42 @@ class Pendulum:
         self.dtheta = dtheta
         self.x = self.L*np.sin(self.theta) + x0
         self.y = self.L*np.cos(self.theta) + y0
-        self.df = pd.DataFrame({"theta": self.theta, "dtheta": self.dtheta,
-                                "x": self.x, "y": self.y})
+        self.df = pd.DataFrame({
+            "theta": self.theta,
+            "dtheta": self.dtheta,
+            "x": self.x,
+            "y": self.y
+        })
 
     def get_max_x(self) -> float:
-        """Return the maximum x-value that this pendulum reaches"""
+        """
+        Return the maximum x-coordinate of the pendulum.
+
+        Returns
+        -------
+        float
+            The maximum x-coordinate that the pendulum reaches.
+        """
         return max(self.x)
 
     def get_max_y(self) -> float:
-        """Return the maximum y-value that this pendulum reaches"""
+        """
+        Return the maximum y-coordinate of the double pendulum.
+
+        Returns
+        -------
+        float
+            The maximum y-coordinate that the double pendulum reaches.
+        """
         return max(self.y)
 
     def get_max_coordinates(self) -> Tuple[float, float]:
-        """Return maximum cartesian coordinate that this system reaches"""
+        """
+        Return the maximum coordinates the overall system reaches.
+
+        Returns
+        -------
+        float
+            The maximum distance from the origin that the overall double pendulum system reaches.
+        """
         return (self.get_max_x(), self.get_max_y())
