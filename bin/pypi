@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#Automate the process of uploading package to PyPI
+
+#Delete older version build directories
+directories=("dist/" "build/" "double-pendula.egg-info/")
+for d in ${directories[@]};
+do
+	if [ -d $d ];
+	then
+		rm -rf $d
+		echo "$d deleted!"
+	fi
+done
+
+# cd docs
+# sphinx-apidoc -o source/ ../spyrograph/ --separate
+# make clean
+# make html
+# cd ..
+
+#Setup package and initiate upload to PyPI
+python3 setup.py sdist bdist_wheel
+twine upload dist/*
