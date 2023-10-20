@@ -138,8 +138,34 @@ class DoublePendula:
     def create_multiple_double_pendula(
             cls, num_pendula: int = 1, L1: float = 1.0,
             L2: float = 1.0, m1: float = 1.0, m2: float = 1.0,
-            initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendulum"]:
-        """Returns a list of DoublePendulum's each offset slightly from each other"""
+            initial_theta: float = 90, dtheta: float = .05) -> List["DoublePendula"]:
+        """
+        Creates and returns a list of DoublePendula objects with initial
+        conditions offset by dtheta.
+
+        Parameters
+        ----------
+        num_pendula : int, optional
+            Number of DoublePendula objects to create, default is 1.
+        L1 : float, optional
+            Length of the first pendulum arm, default is 1.0.
+        L2 : float, optional
+            Length of the second pendulum arm, default is 1.0.
+        m1 : float, optional
+            Mass of the first pendulum bob, default is 1.0.
+        m2 : float, optional
+            Mass of the second pendulum bob, default is 1.0.
+        initial_theta : float, optional
+            Initial angle in degrees of the first pendulum, default is 90.
+        dtheta : float, optional
+            Offset in initial angle in degrees for each subsequent pendulum,
+            default is 0.05.
+
+        Returns
+        -------
+        List["DoublePendula"]
+            A list containing the created DoublePendula objects.
+        """
         # pylint: disable=too-many-arguments
         pendula = []
         created_pendula = 0
@@ -189,4 +215,4 @@ class DoublePendula:
 
     def __repr__(self):
         # pylint: disable=line-too-long
-        return f"< DoublePendulum: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"
+        return f"< DoublePendula: L1={self.pendulum1.L} m1={self.pendulum1.m} L2={self.pendulum2.L} m2={self.pendulum2.m} y0={self.y0} >"
