@@ -6,10 +6,10 @@ I love physicists and software engineers and want to hear your input! Contributi
 - Submitting a fix
 - Proposing new features
 - Becoming a maintainer
-- etc.
+- etc. 
 
 ## We develop with GitHub
-We use GitHub to host code, track issues and feature requests, as well as accept pull requests.
+We use GitHub to host code, track issues and feature requests, as well as accept pull requests. 
 
 ## We use the [GitHub flow](https://guides.github.com/introduction/flow/), so all code changes happen through pull requests
 Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
