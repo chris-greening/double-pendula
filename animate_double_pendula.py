@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
 
-from double_pendulum import DoublePendulum
+from double_pendula.double_pendula import DoublePendula
 
 def random_hex() -> str:
     """Return a random hex color i.e. #FFFFFF"""
@@ -43,7 +43,7 @@ def animate(i):
 
 def create_axes(
         fig: "matplotlib.figure.Figure",
-        pendula: List["DoublePendulum"]
+        pendula: List["DoublePendula"]
     ) -> List["matplotlib.axes._subplots.AxesSubplot"]:
     """Create all the individual axes for the double pendula"""
     axes = []
@@ -61,7 +61,7 @@ def create_axes(
     return axes
 
 def _create_individual_axis(
-        longest_double_pendulum: "DoublePendulum",
+        longest_double_pendulum: "DoublePendula",
         fig: "matplotlib.figure.Figure",
         i: int
     ) -> None:
@@ -88,7 +88,7 @@ def _create_individual_axis(
 if __name__ == "__main__":
     # Create the pendula
     fig = plt.figure()
-    pendula = DoublePendulum.create_multiple_double_pendula(num_pendula=10)
+    pendula = DoublePendula.create_multiple_double_pendula(num_pendula=10)
     axes = create_axes(fig=fig, pendula=pendula)
     pendula_axes = list(zip(pendula, axes))
 
