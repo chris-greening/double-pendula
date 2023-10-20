@@ -1,6 +1,4 @@
 """Model of a double pendulum"""
-# Author: Chris Greening
-# Date: 2019-07-15
 
 from typing import Tuple, List
 
