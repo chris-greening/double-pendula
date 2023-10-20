@@ -8,8 +8,8 @@ import pandas as pd
 import numpy as np
 from scipy import constants
 
-from pendulum import Pendulum
-from equations import derivative, solve_ode
+from .pendulum import Pendulum
+from .equations import derivative, solve_ode
 
 class DoublePendulum:
     """Model of a double pendulum"""
